@@ -20,40 +20,87 @@ export default function NavBar() {
             initial={{ y: -100, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
             transition={{ duration: 0.5 }}
-            className="fixed top-6 left-1/2 -translate-x-1/2 z-50"
+            className="fixed top-0 left-0 right-0 z-50"
         >
-            <div className="glass-panel px-6 py-3 flex items-center gap-2">
-                {navItems.map((item) => {
-                    const Icon = item.icon;
-                    const isActive = pathname === item.href;
-
-                    return (
-                        <Link key={item.href} href={item.href}>
+            <div className="navbar-glass">
+                <div className="max-w-7xl mx-auto px-6 py-4">
+                    <div className="flex items-center justify-between">
+                        {/* Logo/Title */}
+                        <Link href="/">
                             <motion.div
-                                whileHover={{ scale: 1.05 }}
-                                whileTap={{ scale: 0.95 }}
-                                className={`
-                  relative px-4 py-2 rounded-lg flex items-center gap-2 transition-all duration-300
-                  ${isActive
-                                        ? 'bg-gradient-to-r from-[#00D9FF]/30 to-[#B026FF]/30 text-white'
-                                        : 'text-gray-400 hover:text-white hover:bg-white/5'
-                                    }
-                `}
+                                whileHover={{ scale: 1.02 }}
+                                className="flex items-center gap-3"
                             >
-                                <Icon size={18} />
-                                <span className="font-medium">{item.label}</span>
-
-                                {isActive && (
-                                    <motion.div
-                                        layoutId="activeTab"
-                                        className="absolute inset-0 rounded-lg neon-border-blue -z-10"
-                                        transition={{ type: 'spring', stiffness: 300, damping: 30 }}
-                                    />
-                                )}
+                                <div className="text-3xl">🌤️</div>
+                                <div>
+                                    <h1 className="text-xl font-bold text-gray-800">Weather Physics</h1>
+                                    <p className="text-xs text-gray-500">Climate Simulator</p>
+                                </div>
                             </motion.div>
                         </Link>
-                    );
-                })}
+
+                        {/* Navigation Links */}
+                        <div className="hidden md:flex items-center gap-2">
+                            {navItems.map((item) => {
+                                const Icon = item.icon;
+                                const isActive = pathname === item.href;
+
+                                return (
+                                    <Link key={item.href} href={item.href}>
+                                        <motion.div
+                                            whileHover={{ scale: 1.05 }}
+                                            whileTap={{ scale: 0.95 }}
+                                            className={`
+                        px-4 py-2 rounded-xl flex items-center gap-2 transition-all duration-300
+                        ${isActive
+                                                    ? 'bg-blue-500 text-white shadow-md'
+                                                    : 'text-gray-700 hover:bg-white/60'
+                                                }
+                      `}
+                                        >
+                                            <Icon size={18} />
+                                            <span className="font-medium text-sm">{item.label}</span>
+                                        </motion.div>
+                                    </Link>
+                                );
+                            })}
+                        </div>
+
+                        {/* Mobile Menu Button */}
+                        <div className="md:hidden">
+                            <button className="p-2 rounded-lg hover:bg-white/60 transition-colors">
+                                <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+
+                    {/* Mobile Menu */}
+                    <div className="md:hidden mt-4 space-y-2">
+                        {navItems.map((item) => {
+                            const Icon = item.icon;
+                            const isActive = pathname === item.href;
+
+                            return (
+                                <Link key={item.href} href={item.href}>
+                                    <div
+                                        className={`
+                      px-4 py-3 rounded-xl flex items-center gap-3 transition-all
+                      ${isActive
+                                                ? 'bg-blue-500 text-white'
+                                                : 'text-gray-700 hover:bg-white/60'
+                                            }
+                    `}
+                                    >
+                                        <Icon size={20} />
+                                        <span className="font-medium">{item.label}</span>
+                                    </div>
+                                </Link>
+                            );
+                        })}
+                    </div>
+                </div>
             </div>
         </motion.nav>
     );
