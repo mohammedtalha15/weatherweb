@@ -8,6 +8,11 @@ A futuristic, interactive Next.js website where users manipulate fundamental phy
 
 ## ✨ Features
 
+### 🌍 Globe-to-Map Transform
+- **Interactive D3 Visualization**: Smoothly transform a 3D globe into a 2D equirectangular map
+- **Dark Industrial Aesthetic**: Premium dark mode design with glassmorphism
+- **Interactive Controls**: Unroll/Roll animations and reset functionality
+
 ### 🎮 Interactive Physics Controls
 - **8 Physics Parameters**: Gravity, Air Density, Atmospheric Pressure, CO₂, Sunlight, Humidity, Wind Drag, Cloud Condensation
 - **Real-time Simulation**: Instant weather calculations using physics-based formulas
