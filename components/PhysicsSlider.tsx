@@ -27,7 +27,6 @@ export default function PhysicsSlider({
     description,
     icon,
     onChange,
-    color = 'blue',
 }: PhysicsSliderProps) {
     const [showTooltip, setShowTooltip] = useState(false);
     const [isDragging, setIsDragging] = useState(false);
@@ -36,29 +35,12 @@ export default function PhysicsSlider({
     const normalizedValue = (value - min) / (max - min);
     const isExtreme = normalizedValue < 0.2 || normalizedValue > 0.8;
 
-    // Color mapping
-    const colorClasses = {
-        blue: 'neon-glow-blue',
-        purple: 'neon-glow-purple',
-        cyan: 'neon-glow-cyan',
-        pink: 'neon-glow-pink',
-    };
-
-    const borderColors = {
-        blue: 'border-[#00D9FF]',
-        purple: 'border-[#B026FF]',
-        cyan: 'border-[#00FFF0]',
-        pink: 'border-[#FF006E]',
-    };
-
-    const glowClass = isExtreme ? colorClasses[color] : '';
-
     return (
         <motion.div
-            className="glass-card p-6 relative"
-            initial={{ opacity: 0, y: 20 }}
+            className="weather-card p-5"
+            initial={{ opacity: 0, y: 15 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5 }}
+            transition={{ duration: 0.4 }}
             onHoverStart={() => setShowTooltip(true)}
             onHoverEnd={() => setShowTooltip(false)}
         >
@@ -67,27 +49,27 @@ export default function PhysicsSlider({
                 <div className="flex items-center gap-3">
                     {icon && <div className="text-2xl">{icon}</div>}
                     <div>
-                        <h3 className="text-lg font-semibold text-white">{label}</h3>
-                        <p className="text-sm text-gray-400">{description}</p>
+                        <h3 className="text-base font-semibold text-gray-800">{label}</h3>
+                        <p className="text-xs text-gray-500">{description}</p>
                     </div>
                 </div>
 
                 {/* Value Display */}
                 <motion.div
-                    className={`px-4 py-2 rounded-lg ${borderColors[color]} border-2 ${glowClass}`}
+                    className="px-4 py-2 rounded-xl bg-blue-50 border border-blue-100"
                     animate={{
-                        scale: isDragging ? 1.1 : 1,
+                        scale: isDragging ? 1.05 : 1,
                     }}
-                    transition={{ type: 'spring', stiffness: 300 }}
+                    transition={{ type: 'spring', stiffness: 400 }}
                 >
-                    <span className="text-xl font-bold gradient-text">
+                    <span className="text-lg font-bold text-blue-600">
                         {formatNumber(value, 2)} {unit}
                     </span>
                 </motion.div>
             </div>
 
             {/* Slider */}
-            <div className="relative">
+            <div className="relative mb-3">
                 <input
                     type="range"
                     min={min}
@@ -101,23 +83,10 @@ export default function PhysicsSlider({
                     onTouchEnd={() => setIsDragging(false)}
                     className="w-full"
                 />
-
-                {/* Progress Bar Background */}
-                <div className="absolute top-1/2 -translate-y-1/2 left-0 w-full h-2 bg-white/10 rounded-full pointer-events-none -z-10" />
-
-                {/* Progress Bar Fill */}
-                <div
-                    className={`absolute top-1/2 -translate-y-1/2 left-0 h-2 rounded-full pointer-events-none -z-10 ${color === 'blue' ? 'bg-[#00D9FF]' :
-                            color === 'purple' ? 'bg-[#B026FF]' :
-                                color === 'cyan' ? 'bg-[#00FFF0]' :
-                                    'bg-[#FF006E]'
-                        }`}
-                    style={{ width: `${normalizedValue * 100}%` }}
-                />
             </div>
 
             {/* Min/Max Labels */}
-            <div className="flex justify-between mt-2 text-xs text-gray-500">
+            <div className="flex justify-between text-xs text-gray-400">
                 <span>{min} {unit}</span>
                 <span>{max} {unit}</span>
             </div>
@@ -125,13 +94,12 @@ export default function PhysicsSlider({
             {/* Tooltip */}
             {showTooltip && (
                 <motion.div
-                    initial={{ opacity: 0, y: 10 }}
+                    initial={{ opacity: 0, y: 5 }}
                     animate={{ opacity: 1, y: 0 }}
-                    exit={{ opacity: 0, y: 10 }}
-                    className="absolute -top-2 left-1/2 -translate-x-1/2 -translate-y-full z-50 px-4 py-2 glass-panel text-sm text-white whitespace-nowrap"
+                    exit={{ opacity: 0, y: 5 }}
+                    className="mt-3 px-3 py-2 rounded-lg bg-gray-50 text-xs text-gray-600"
                 >
                     {description}
-                    <div className="absolute bottom-0 left-1/2 -translate-x-1/2 translate-y-1/2 w-2 h-2 bg-white/20 rotate-45" />
                 </motion.div>
             )}
 
@@ -140,9 +108,10 @@ export default function PhysicsSlider({
                 <motion.div
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
-                    className="mt-3 px-3 py-2 rounded-lg bg-yellow-500/10 border border-yellow-500/30 text-yellow-300 text-xs"
+                    className="mt-3 px-3 py-2 rounded-lg bg-amber-50 border border-amber-200 text-amber-700 text-xs flex items-center gap-2"
                 >
-                    ⚠️ Extreme value - expect unusual weather patterns
+                    <span>⚠️</span>
+                    <span>Extreme value - unusual weather patterns expected</span>
                 </motion.div>
             )}
         </motion.div>
