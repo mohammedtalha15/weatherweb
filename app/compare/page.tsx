@@ -19,280 +19,142 @@ export default function ComparePage() {
         setModifiedParams(prev => ({ ...prev, [key]: value }));
     };
 
-    const getDifference = (earth: number, modified: number): string => {
+    const getDifference = (earth: number, modified: number, unit: string = '') => {
         const diff = modified - earth;
         const sign = diff > 0 ? '+' : '';
-        return `${sign}${diff.toFixed(1)}`;
-    };
-
-    const getDifferencePercent = (earth: number, modified: number): string => {
-        if (earth === 0) return '0%';
-        const percent = ((modified - earth) / earth) * 100;
-        const sign = percent > 0 ? '+' : '';
-        return `${sign}${percent.toFixed(0)}%`;
+        return `${sign}${diff.toFixed(1)}${unit}`;
     };
 
     return (
-        <div className="min-h-screen px-4 py-24 bg-[#1a1a1a]">
-            <div className="max-w-[1800px] mx-auto">
+        <div className="min-h-screen bg-[#1a1a1a] flex flex-col pt-24 pb-8 px-6">
+            <div className="max-w-7xl mx-auto w-full flex-1 flex flex-col">
+
                 {/* Header */}
-                <motion.div
-                    initial={{ opacity: 0, y: -20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    className="text-center mb-12"
-                >
-                    <h1 className="text-4xl md:text-5xl font-bold text-white mb-4">
-                        Earth vs Modified Physics
-                    </h1>
-                    <p className="text-gray-400 text-lg">
-                        Compare normal Earth conditions with your custom physics parameters
-                    </p>
-                </motion.div>
-
-                {/* Quick Controls */}
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
-                    <PhysicsSlider
-                        label="Gravity"
-                        value={modifiedParams.gravity}
-                        min={PARAM_RANGES.gravity.min}
-                        max={PARAM_RANGES.gravity.max}
-                        step={PARAM_RANGES.gravity.step}
-                        unit="g"
-                        description="Gravitational force"
-                        onChange={(v) => handleParameterChange('gravity', v)}
-                        color="blue"
-                    />
-                    <PhysicsSlider
-                        label="Sunlight"
-                        value={modifiedParams.sunlight}
-                        min={PARAM_RANGES.sunlight.min}
-                        max={PARAM_RANGES.sunlight.max}
-                        step={PARAM_RANGES.sunlight.step}
-                        unit="x"
-                        description="Solar intensity"
-                        onChange={(v) => handleParameterChange('sunlight', v)}
-                        color="purple"
-                    />
-                    <PhysicsSlider
-                        label="CO₂"
-                        value={modifiedParams.co2}
-                        min={PARAM_RANGES.co2.min}
-                        max={PARAM_RANGES.co2.max}
-                        step={PARAM_RANGES.co2.step}
-                        unit="ppm"
-                        description="Carbon dioxide"
-                        onChange={(v) => handleParameterChange('co2', v)}
-                        color="pink"
-                    />
-                    <PhysicsSlider
-                        label="Humidity"
-                        value={modifiedParams.humidity}
-                        min={PARAM_RANGES.humidity.min}
-                        max={PARAM_RANGES.humidity.max}
-                        step={PARAM_RANGES.humidity.step}
-                        unit="%"
-                        description="Moisture level"
-                        onChange={(v) => handleParameterChange('humidity', v)}
-                        color="cyan"
-                    />
+                <div className="flex items-center justify-between mb-8">
+                    <h1 className="text-xl font-bold text-white">Compare Physics</h1>
+                    <div className="flex gap-4">
+                        <div className="flex items-center gap-2 text-sm text-gray-400">
+                            <span className="w-2 h-2 rounded-full bg-green-500"></span> Earth
+                        </div>
+                        <div className="flex items-center gap-2 text-sm text-gray-400">
+                            <span className="w-2 h-2 rounded-full bg-purple-500"></span> Modified
+                        </div>
+                    </div>
                 </div>
 
-                {/* Globe Comparison */}
-                <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
-                    {/* Earth Normal */}
-                    <motion.div
-                        initial={{ opacity: 0, x: -20 }}
-                        animate={{ opacity: 1, x: 0 }}
-                        className="weather-panel p-6 bg-neutral-900/50 border-neutral-800"
-                    >
-                        <div className="flex items-center justify-between mb-4">
-                            <h2 className="text-2xl font-bold text-white">🌍 Earth Normal</h2>
-                            <span className="px-3 py-1 rounded-full bg-green-500/20 text-green-300 text-sm border border-green-500/30">
-                                Baseline
-                            </span>
-                        </div>
-                        <div className="h-[400px] rounded-xl overflow-hidden bg-black/20 border border-white/5">
-                            <Globe parameters={DEFAULT_PARAMS} weather={earthWeather} />
-                        </div>
-                    </motion.div>
+                {/* Main Content */}
+                <div className="flex-1 grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
 
-                    {/* Modified Physics */}
-                    <motion.div
-                        initial={{ opacity: 0, x: 20 }}
-                        animate={{ opacity: 1, x: 0 }}
-                        className="weather-panel p-6 bg-neutral-900/50 border-neutral-800"
-                    >
-                        <div className="flex items-center justify-between mb-4">
-                            <h2 className="text-2xl font-bold text-white">🔬 Modified Physics</h2>
-                            <span className="px-3 py-1 rounded-full bg-purple-500/20 text-purple-300 text-sm border border-purple-500/30">
-                                Custom
-                            </span>
+                    {/* Earth */}
+                    <div className="relative rounded-2xl overflow-hidden border border-white/5 bg-black/20 group">
+                        <div className="absolute top-4 left-4 z-10 bg-black/40 backdrop-blur-md px-3 py-1 rounded-full border border-white/10">
+                            <span className="text-xs font-medium text-green-400">Earth Normal</span>
                         </div>
-                        <div className="h-[400px] rounded-xl overflow-hidden bg-black/20 border border-white/5">
-                            <Globe parameters={modifiedParams} weather={modifiedWeather} />
+                        <Globe parameters={DEFAULT_PARAMS} weather={earthWeather} />
+
+                        {/* Earth Metrics Overlay */}
+                        <div className="absolute bottom-4 left-4 right-4 flex justify-between text-xs text-gray-400 bg-black/60 backdrop-blur-md p-3 rounded-xl border border-white/5 opacity-0 group-hover:opacity-100 transition-opacity">
+                            <div>Temp: {earthWeather.temperature.toFixed(1)}°C</div>
+                            <div>Rain: {earthWeather.precipitationChance.toFixed(0)}%</div>
+                            <div>Wind: {earthWeather.windSpeed.toFixed(1)} km/h</div>
                         </div>
-                    </motion.div>
+                    </div>
+
+                    {/* Modified */}
+                    <div className="relative rounded-2xl overflow-hidden border border-purple-500/20 bg-black/20 group">
+                        <div className="absolute top-4 left-4 z-10 bg-purple-900/20 backdrop-blur-md px-3 py-1 rounded-full border border-purple-500/30">
+                            <span className="text-xs font-medium text-purple-300">Modified Physics</span>
+                        </div>
+                        <Globe parameters={modifiedParams} weather={modifiedWeather} />
+
+                        {/* Modified Metrics Overlay */}
+                        <div className="absolute bottom-4 left-4 right-4 flex justify-between text-xs text-gray-400 bg-black/60 backdrop-blur-md p-3 rounded-xl border border-white/5 opacity-0 group-hover:opacity-100 transition-opacity">
+                            <div>Temp: {modifiedWeather.temperature.toFixed(1)}°C</div>
+                            <div>Rain: {modifiedWeather.precipitationChance.toFixed(0)}%</div>
+                            <div>Wind: {modifiedWeather.windSpeed.toFixed(1)} km/h</div>
+                        </div>
+                    </div>
                 </div>
 
-                {/* Comparison Table */}
-                <motion.div
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: 0.3 }}
-                    className="weather-panel p-8 bg-neutral-900/50 border-neutral-800"
-                >
-                    <h2 className="text-3xl font-bold text-white mb-6 flex items-center gap-2">
-                        <span className="text-blue-400">📊</span>
-                        Weather Comparison
-                    </h2>
-
-                    <div className="overflow-x-auto">
-                        <table className="w-full">
-                            <thead>
-                                <tr className="border-b border-white/10">
-                                    <th className="text-left py-4 px-4 text-gray-400 font-medium">Metric</th>
-                                    <th className="text-center py-4 px-4 text-green-400 font-medium">Earth Normal</th>
-                                    <th className="text-center py-4 px-4 text-purple-400 font-medium">Modified</th>
-                                    <th className="text-center py-4 px-4 text-blue-400 font-medium">Difference</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <ComparisonRow
-                                    metric="Temperature"
-                                    unit="°C"
-                                    earthValue={earthWeather.temperature}
-                                    modifiedValue={modifiedWeather.temperature}
-                                />
-                                <ComparisonRow
-                                    metric="Cloud Altitude"
-                                    unit="m"
-                                    earthValue={earthWeather.cloudAltitude}
-                                    modifiedValue={modifiedWeather.cloudAltitude}
-                                />
-                                <ComparisonRow
-                                    metric="Rain Chance"
-                                    unit="%"
-                                    earthValue={earthWeather.precipitationChance}
-                                    modifiedValue={modifiedWeather.precipitationChance}
-                                />
-                                <ComparisonRow
-                                    metric="Wind Speed"
-                                    unit="km/h"
-                                    earthValue={earthWeather.windSpeed}
-                                    modifiedValue={modifiedWeather.windSpeed}
-                                />
-                                <ComparisonRow
-                                    metric="Storm Risk"
-                                    unit="%"
-                                    earthValue={earthWeather.stormProbability}
-                                    modifiedValue={modifiedWeather.stormProbability}
-                                />
-                                <ComparisonRow
-                                    metric="Evaporation"
-                                    unit="mm/day"
-                                    earthValue={earthWeather.evaporationRate}
-                                    modifiedValue={modifiedWeather.evaporationRate}
-                                />
-                                <ComparisonRow
-                                    metric="Visibility"
-                                    unit="km"
-                                    earthValue={earthWeather.visibility}
-                                    modifiedValue={modifiedWeather.visibility}
-                                />
-                                <ComparisonRow
-                                    metric="Comfort Index"
-                                    unit="/100"
-                                    earthValue={earthWeather.comfortIndex}
-                                    modifiedValue={modifiedWeather.comfortIndex}
-                                />
-                            </tbody>
-                        </table>
-                    </div>
-                </motion.div>
-
-                {/* Impact Summary */}
-                <motion.div
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: 0.5 }}
-                    className="mt-8 weather-panel p-8 bg-neutral-900/50 border-neutral-800"
-                >
-                    <h2 className="text-2xl font-bold text-white mb-4">Impact Summary</h2>
-                    <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                        <ImpactCard
-                            title="Temperature Change"
-                            value={getDifference(earthWeather.temperature, modifiedWeather.temperature)}
-                            description={modifiedWeather.temperature > earthWeather.temperature ? 'Warmer climate' : 'Cooler climate'}
-                            color="#ef4444"
+                {/* Controls & Impact */}
+                <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                    {/* Controls */}
+                    <div className="lg:col-span-2 grid grid-cols-2 md:grid-cols-4 gap-4">
+                        <MinimalSlider
+                            label="Gravity"
+                            value={modifiedParams.gravity}
+                            min={PARAM_RANGES.gravity.min}
+                            max={PARAM_RANGES.gravity.max}
+                            onChange={(v) => handleParameterChange('gravity', v)}
                         />
-                        <ImpactCard
-                            title="Storm Risk Change"
-                            value={getDifferencePercent(earthWeather.stormProbability, modifiedWeather.stormProbability)}
-                            description={modifiedWeather.stormProbability > earthWeather.stormProbability ? 'More storms' : 'Fewer storms'}
-                            color="#a855f7"
+                        <MinimalSlider
+                            label="Sunlight"
+                            value={modifiedParams.sunlight}
+                            min={PARAM_RANGES.sunlight.min}
+                            max={PARAM_RANGES.sunlight.max}
+                            onChange={(v) => handleParameterChange('sunlight', v)}
                         />
-                        <ImpactCard
-                            title="Comfort Change"
-                            value={getDifference(earthWeather.comfortIndex, modifiedWeather.comfortIndex)}
-                            description={modifiedWeather.comfortIndex > earthWeather.comfortIndex ? 'More comfortable' : 'Less comfortable'}
-                            color="#3b82f6"
+                        <MinimalSlider
+                            label="CO₂"
+                            value={modifiedParams.co2}
+                            min={PARAM_RANGES.co2.min}
+                            max={PARAM_RANGES.co2.max}
+                            onChange={(v) => handleParameterChange('co2', v)}
+                        />
+                        <MinimalSlider
+                            label="Humidity"
+                            value={modifiedParams.humidity}
+                            min={PARAM_RANGES.humidity.min}
+                            max={PARAM_RANGES.humidity.max}
+                            onChange={(v) => handleParameterChange('humidity', v)}
                         />
                     </div>
-                </motion.div>
+
+                    {/* Impact Summary */}
+                    <div className="flex items-center justify-between bg-white/5 rounded-xl p-4 border border-white/5">
+                        <div className="text-center">
+                            <div className="text-xs text-gray-500 uppercase">Temp Diff</div>
+                            <div className={`text-lg font-mono font-bold ${modifiedWeather.temperature > earthWeather.temperature ? 'text-red-400' : 'text-blue-400'}`}>
+                                {getDifference(earthWeather.temperature, modifiedWeather.temperature, '°')}
+                            </div>
+                        </div>
+                        <div className="w-px h-8 bg-white/10"></div>
+                        <div className="text-center">
+                            <div className="text-xs text-gray-500 uppercase">Storm Risk</div>
+                            <div className={`text-lg font-mono font-bold ${modifiedWeather.stormProbability > earthWeather.stormProbability ? 'text-purple-400' : 'text-green-400'}`}>
+                                {getDifference(earthWeather.stormProbability, modifiedWeather.stormProbability, '%')}
+                            </div>
+                        </div>
+                        <div className="w-px h-8 bg-white/10"></div>
+                        <div className="text-center">
+                            <div className="text-xs text-gray-500 uppercase">Comfort</div>
+                            <div className={`text-lg font-mono font-bold ${modifiedWeather.comfortIndex > earthWeather.comfortIndex ? 'text-blue-400' : 'text-orange-400'}`}>
+                                {getDifference(earthWeather.comfortIndex, modifiedWeather.comfortIndex)}
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     );
 }
 
-function ComparisonRow({
-    metric,
-    unit,
-    earthValue,
-    modifiedValue
-}: {
-    metric: string;
-    unit: string;
-    earthValue: number;
-    modifiedValue: number;
-}) {
-    const diff = modifiedValue - earthValue;
-    const diffColor = diff > 0 ? 'text-red-400' : diff < 0 ? 'text-blue-400' : 'text-gray-400';
-    const diffSign = diff > 0 ? '+' : '';
-
+function MinimalSlider({ label, value, min, max, onChange }: { label: string, value: number, min: number, max: number, onChange: (v: number) => void }) {
     return (
-        <tr className="border-b border-white/5 hover:bg-white/5 transition-colors">
-            <td className="py-4 px-4 text-gray-200 font-medium">{metric}</td>
-            <td className="py-4 px-4 text-center text-green-400">
-                {earthValue.toFixed(1)} {unit}
-            </td>
-            <td className="py-4 px-4 text-center text-purple-400">
-                {modifiedValue.toFixed(1)} {unit}
-            </td>
-            <td className={`py-4 px-4 text-center font-bold ${diffColor}`}>
-                {diffSign}{diff.toFixed(1)} {unit}
-            </td>
-        </tr>
-    );
-}
-
-function ImpactCard({
-    title,
-    value,
-    description,
-    color
-}: {
-    title: string;
-    value: string;
-    description: string;
-    color: string;
-}) {
-    return (
-        <div className="weather-card p-6 text-center bg-neutral-800/50 border-neutral-700">
-            <h3 className="text-sm text-gray-400 mb-2 uppercase tracking-wide">{title}</h3>
-            <div className="text-4xl font-bold mb-2" style={{ color }}>
-                {value}
+        <div className="bg-white/5 rounded-lg p-3 border border-white/5">
+            <div className="flex justify-between text-xs mb-2">
+                <span className="text-gray-400">{label}</span>
+                <span className="text-white font-mono">{value.toFixed(1)}</span>
             </div>
-            <p className="text-gray-300 text-sm">{description}</p>
+            <input
+                type="range"
+                min={min}
+                max={max}
+                step={(max - min) / 100}
+                value={value}
+                onChange={(e) => onChange(parseFloat(e.target.value))}
+                className="w-full h-1 bg-white/10 rounded-lg appearance-none cursor-pointer accent-white"
+            />
         </div>
     );
 }

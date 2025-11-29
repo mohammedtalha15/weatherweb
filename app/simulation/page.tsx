@@ -57,49 +57,23 @@ export default function SimulationPage() {
         setParameters(DEFAULT_PARAMS);
     };
 
-    const getSeverity = (value: number, thresholds: number[]): 'safe' | 'caution' | 'warning' | 'danger' => {
-        if (value < thresholds[0]) return 'safe';
-        if (value < thresholds[1]) return 'caution';
-        if (value < thresholds[2]) return 'warning';
-        return 'danger';
-    };
-
     return (
-        <div className="min-h-screen px-4 py-24 bg-[#1a1a1a]">
-            <div className="max-w-[1800px] mx-auto">
-                {/* Header */}
-                <motion.div
-                    initial={{ opacity: 0, y: -20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    className="flex flex-col md:flex-row justify-between items-center mb-8 gap-4"
-                >
-                    <div>
-                        <h1 className="text-4xl md:text-5xl font-bold text-white mb-2">
-                            Weather Simulation Dashboard
-                        </h1>
-                        <p className="text-gray-400">
-                            Adjust physics parameters and observe real-time weather changes
-                        </p>
+        <div className="min-h-screen bg-[#1a1a1a] flex flex-col pt-24 pb-8 px-6">
+            <div className="max-w-7xl mx-auto w-full flex-1 flex flex-col lg:flex-row gap-8">
+
+                {/* Left: Controls */}
+                <div className="w-full lg:w-80 flex flex-col gap-6">
+                    <div className="flex items-center justify-between">
+                        <h1 className="text-xl font-bold text-white">Simulation</h1>
+                        <button
+                            onClick={handleReset}
+                            className="text-xs text-neutral-500 hover:text-white transition-colors flex items-center gap-1"
+                        >
+                            <RotateCcw size={12} /> Reset
+                        </button>
                     </div>
 
-                    <button
-                        onClick={handleReset}
-                        className="btn-secondary flex items-center gap-2 bg-neutral-800 text-white border-neutral-700 hover:bg-neutral-700"
-                    >
-                        <RotateCcw size={18} />
-                        Reset to Earth Normal
-                    </button>
-                </motion.div>
-
-                {/* Main Grid */}
-                <div className="grid grid-cols-1 xl:grid-cols-12 gap-6">
-                    {/* Left Column - Physics Controls */}
-                    <div className="xl:col-span-3 space-y-4">
-                        <h2 className="text-2xl font-bold text-white mb-4 flex items-center gap-2">
-                            <span>⚙️</span>
-                            Physics Controls
-                        </h2>
-
+                    <div className="space-y-4 overflow-y-auto pr-2 custom-scrollbar max-h-[calc(100vh-200px)]">
                         <PhysicsSlider
                             label="Gravity"
                             value={parameters.gravity}
@@ -108,11 +82,8 @@ export default function SimulationPage() {
                             step={PARAM_RANGES.gravity.step}
                             unit="g"
                             description="Earth gravity = 1.0"
-                            icon="🌍"
                             onChange={(v) => handleParameterChange('gravity', v)}
-                            color="blue"
                         />
-
                         <PhysicsSlider
                             label="Air Density"
                             value={parameters.airDensity}
@@ -120,12 +91,9 @@ export default function SimulationPage() {
                             max={PARAM_RANGES.airDensity.max}
                             step={PARAM_RANGES.airDensity.step}
                             unit="kg/m³"
-                            description="Affects wind and heat"
-                            icon="💨"
+                            description="Atmospheric density"
                             onChange={(v) => handleParameterChange('airDensity', v)}
-                            color="cyan"
                         />
-
                         <PhysicsSlider
                             label="Pressure"
                             value={parameters.pressure}
@@ -134,11 +102,8 @@ export default function SimulationPage() {
                             step={PARAM_RANGES.pressure.step}
                             unit="mb"
                             description="Atmospheric pressure"
-                            icon="📊"
                             onChange={(v) => handleParameterChange('pressure', v)}
-                            color="purple"
                         />
-
                         <PhysicsSlider
                             label="CO₂ Level"
                             value={parameters.co2}
@@ -146,12 +111,9 @@ export default function SimulationPage() {
                             max={PARAM_RANGES.co2.max}
                             step={PARAM_RANGES.co2.step}
                             unit="ppm"
-                            description="Greenhouse gas concentration"
-                            icon="🏭"
+                            description="Greenhouse gas"
                             onChange={(v) => handleParameterChange('co2', v)}
-                            color="pink"
                         />
-
                         <PhysicsSlider
                             label="Sunlight"
                             value={parameters.sunlight}
@@ -159,12 +121,9 @@ export default function SimulationPage() {
                             max={PARAM_RANGES.sunlight.max}
                             step={PARAM_RANGES.sunlight.step}
                             unit="x"
-                            description="Solar radiation intensity"
-                            icon="☀️"
+                            description="Solar intensity"
                             onChange={(v) => handleParameterChange('sunlight', v)}
-                            color="blue"
                         />
-
                         <PhysicsSlider
                             label="Humidity"
                             value={parameters.humidity}
@@ -172,12 +131,9 @@ export default function SimulationPage() {
                             max={PARAM_RANGES.humidity.max}
                             step={PARAM_RANGES.humidity.step}
                             unit="%"
-                            description="Atmospheric moisture"
-                            icon="💧"
+                            description="Moisture"
                             onChange={(v) => handleParameterChange('humidity', v)}
-                            color="cyan"
                         />
-
                         <PhysicsSlider
                             label="Wind Drag"
                             value={parameters.windDrag}
@@ -185,12 +141,9 @@ export default function SimulationPage() {
                             max={PARAM_RANGES.windDrag.max}
                             step={PARAM_RANGES.windDrag.step}
                             unit="x"
-                            description="Air resistance factor"
-                            icon="🌪️"
+                            description="Air resistance"
                             onChange={(v) => handleParameterChange('windDrag', v)}
-                            color="purple"
                         />
-
                         <PhysicsSlider
                             label="Cloud Formation"
                             value={parameters.cloudCondensation}
@@ -199,113 +152,60 @@ export default function SimulationPage() {
                             step={PARAM_RANGES.cloudCondensation.step}
                             unit="x"
                             description="Condensation rate"
-                            icon="☁️"
                             onChange={(v) => handleParameterChange('cloudCondensation', v)}
-                            color="pink"
                         />
-                    </div>
-
-                    {/* Center Column - 3D Globe */}
-                    <div className="xl:col-span-5">
-                        <div className="bg-neutral-950 border border-neutral-800 rounded-2xl p-6 h-full min-h-[600px] flex flex-col">
-                            <h2 className="text-2xl font-bold text-white mb-4 flex items-center gap-2">
-                                <span>🌐</span>
-                                Live Simulation
-                            </h2>
-                            <div className="flex-1 bg-black/20 rounded-xl border border-white/5 overflow-hidden relative">
-                                {weather && (
-                                    <Globe parameters={parameters} weather={weather} />
-                                )}
-                            </div>
-                        </div>
-                    </div>
-
-                    {/* Right Column - Weather Outputs */}
-                    <div className="xl:col-span-4 space-y-4">
-                        <h2 className="text-2xl font-bold text-white mb-4 flex items-center gap-2">
-                            <span>📈</span>
-                            Weather Metrics
-                        </h2>
-
-                        {weather && (
-                            <>
-                                <WeatherCard
-                                    title="Temperature"
-                                    value={weather.temperature}
-                                    unit="°C"
-                                    icon="temp"
-                                    severity={getSeverity(Math.abs(weather.temperature - 20), [10, 20, 30])}
-                                    delay={0}
-                                />
-
-                                <WeatherCard
-                                    title="Cloud Altitude"
-                                    value={weather.cloudAltitude}
-                                    unit="m"
-                                    icon="cloud"
-                                    severity="safe"
-                                    delay={0.05}
-                                />
-
-                                <WeatherCard
-                                    title="Rain Chance"
-                                    value={weather.precipitationChance}
-                                    unit="%"
-                                    icon="rain"
-                                    severity={getSeverity(weather.precipitationChance, [30, 60, 80])}
-                                    delay={0.1}
-                                />
-
-                                <WeatherCard
-                                    title="Wind Speed"
-                                    value={weather.windSpeed}
-                                    unit="km/h"
-                                    icon="wind"
-                                    severity={getSeverity(weather.windSpeed, [20, 40, 60])}
-                                    delay={0.15}
-                                />
-
-                                <WeatherCard
-                                    title="Storm Risk"
-                                    value={weather.stormProbability}
-                                    unit="%"
-                                    icon="storm"
-                                    severity={getSeverity(weather.stormProbability, [30, 60, 80])}
-                                    delay={0.2}
-                                />
-
-                                <WeatherCard
-                                    title="Visibility"
-                                    value={weather.visibility}
-                                    unit="km"
-                                    icon="visibility"
-                                    severity={getSeverity(10 - weather.visibility, [2, 5, 7])}
-                                    delay={0.25}
-                                />
-
-                                <WeatherCard
-                                    title="Comfort Index"
-                                    value={weather.comfortIndex}
-                                    unit="/100"
-                                    icon="pressure"
-                                    severity={getSeverity(100 - weather.comfortIndex, [30, 50, 70])}
-                                    delay={0.3}
-                                />
-                            </>
-                        )}
                     </div>
                 </div>
 
-                {/* AI Explanation Section */}
-                <motion.div
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: 0.5 }}
-                    className="mt-8"
-                >
-                    <AISummary explanation={aiExplanation} loading={isLoadingAI} />
-                </motion.div>
+                {/* Right: Globe & Metrics */}
+                <div className="flex-1 flex flex-col gap-6">
+                    {/* Globe Container */}
+                    <div className="flex-1 min-h-[500px] bg-black/20 rounded-2xl border border-white/5 overflow-hidden relative">
+                        {weather && (
+                            <Globe parameters={parameters} weather={weather} />
+                        )}
+
+                        {/* Overlay Metrics */}
+                        <div className="absolute bottom-6 left-6 right-6 flex flex-wrap gap-4 pointer-events-none">
+                            {weather && (
+                                <>
+                                    <MetricBadge label="Temp" value={`${weather.temperature.toFixed(1)}°C`} />
+                                    <MetricBadge label="Wind" value={`${weather.windSpeed.toFixed(1)} km/h`} />
+                                    <MetricBadge label="Rain" value={`${weather.precipitationChance.toFixed(0)}%`} />
+                                    <MetricBadge label="Comfort" value={`${weather.comfortIndex.toFixed(0)}/100`} />
+                                </>
+                            )}
+                        </div>
+                    </div>
+
+                    {/* AI Summary (Minimal) */}
+                    {aiExplanation && (
+                        <motion.div
+                            initial={{ opacity: 0, y: 10 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            className="bg-neutral-900/30 border border-white/5 rounded-xl p-4"
+                        >
+                            <div className="flex items-start gap-3">
+                                <div className="mt-1 text-blue-400">✨</div>
+                                <div>
+                                    <p className="text-sm text-gray-300 leading-relaxed">
+                                        {aiExplanation.summary}
+                                    </p>
+                                </div>
+                            </div>
+                        </motion.div>
+                    )}
+                </div>
             </div>
+        </div>
+    );
+}
+
+function MetricBadge({ label, value }: { label: string; value: string }) {
+    return (
+        <div className="bg-black/40 backdrop-blur-md border border-white/10 px-4 py-2 rounded-lg text-white pointer-events-auto">
+            <span className="text-xs text-gray-400 uppercase tracking-wider mr-2">{label}</span>
+            <span className="font-mono font-medium">{value}</span>
         </div>
     );
 }
