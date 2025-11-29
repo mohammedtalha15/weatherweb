@@ -1,5 +1,4 @@
 @import "tailwindcss";
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
 
 :root {
   /* Neon Colors */
@@ -8,26 +7,23 @@
   --neon-cyan: #00FFF0;
   --neon-pink: #FF006E;
   --neon-green: #39FF14;
-  
+
   /* Glass Colors */
   --glass-light: rgba(255, 255, 255, 0.1);
   --glass-dark: rgba(0, 0, 0, 0.3);
   --glass-border: rgba(255, 255, 255, 0.2);
-  
+
   /* Background */
   --bg-start: #0a0015;
   --bg-mid: #1a0033;
   --bg-end: #000a1f;
-  
+
   /* Text */
   --text-primary: #ffffff;
   --text-secondary: #b4b4b4;
   --text-glow: #00D9FF;
 }
 
-@theme inline {
-  --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
-}
 
 * {
   margin: 0;
@@ -72,44 +68,44 @@ body {
 /* Neon Glow Effects */
 .neon-glow-blue {
   box-shadow: 0 0 20px rgba(0, 217, 255, 0.5),
-              0 0 40px rgba(0, 217, 255, 0.3),
-              0 0 60px rgba(0, 217, 255, 0.1);
+    0 0 40px rgba(0, 217, 255, 0.3),
+    0 0 60px rgba(0, 217, 255, 0.1);
 }
 
 .neon-glow-purple {
   box-shadow: 0 0 20px rgba(176, 38, 255, 0.5),
-              0 0 40px rgba(176, 38, 255, 0.3),
-              0 0 60px rgba(176, 38, 255, 0.1);
+    0 0 40px rgba(176, 38, 255, 0.3),
+    0 0 60px rgba(176, 38, 255, 0.1);
 }
 
 .neon-glow-cyan {
   box-shadow: 0 0 20px rgba(0, 255, 240, 0.5),
-              0 0 40px rgba(0, 255, 240, 0.3),
-              0 0 60px rgba(0, 255, 240, 0.1);
+    0 0 40px rgba(0, 255, 240, 0.3),
+    0 0 60px rgba(0, 255, 240, 0.1);
 }
 
 .neon-glow-pink {
   box-shadow: 0 0 20px rgba(255, 0, 110, 0.5),
-              0 0 40px rgba(255, 0, 110, 0.3),
-              0 0 60px rgba(255, 0, 110, 0.1);
+    0 0 40px rgba(255, 0, 110, 0.3),
+    0 0 60px rgba(255, 0, 110, 0.1);
 }
 
 .neon-border-blue {
   border: 2px solid var(--neon-blue);
   box-shadow: 0 0 10px rgba(0, 217, 255, 0.6),
-              inset 0 0 10px rgba(0, 217, 255, 0.2);
+    inset 0 0 10px rgba(0, 217, 255, 0.2);
 }
 
 .neon-border-purple {
   border: 2px solid var(--neon-purple);
   box-shadow: 0 0 10px rgba(176, 38, 255, 0.6),
-              inset 0 0 10px rgba(176, 38, 255, 0.2);
+    inset 0 0 10px rgba(176, 38, 255, 0.2);
 }
 
 .neon-border-pink {
   border: 2px solid var(--neon-pink);
   box-shadow: 0 0 10px rgba(255, 0, 110, 0.6),
-              inset 0 0 10px rgba(255, 0, 110, 0.2);
+    inset 0 0 10px rgba(255, 0, 110, 0.2);
 }
 
 /* Gradient Backgrounds */
@@ -123,9 +119,12 @@ body {
 
 /* Floating Animation */
 @keyframes float {
-  0%, 100% {
+
+  0%,
+  100% {
     transform: translateY(0px);
   }
+
   50% {
     transform: translateY(-20px);
   }
@@ -141,12 +140,15 @@ body {
 
 /* Pulse Glow Animation */
 @keyframes pulse-glow {
-  0%, 100% {
+
+  0%,
+  100% {
     box-shadow: 0 0 20px rgba(0, 217, 255, 0.4);
   }
+
   50% {
     box-shadow: 0 0 40px rgba(0, 217, 255, 0.8),
-                0 0 60px rgba(0, 217, 255, 0.4);
+      0 0 60px rgba(0, 217, 255, 0.4);
   }
 }
 
@@ -159,18 +161,17 @@ body {
   0% {
     background-position: -1000px 0;
   }
+
   100% {
     background-position: 1000px 0;
   }
 }
 
 .shimmer {
-  background: linear-gradient(
-    90deg,
-    rgba(255, 255, 255, 0.05) 0%,
-    rgba(255, 255, 255, 0.2) 50%,
-    rgba(255, 255, 255, 0.05) 100%
-  );
+  background: linear-gradient(90deg,
+      rgba(255, 255, 255, 0.05) 0%,
+      rgba(255, 255, 255, 0.2) 50%,
+      rgba(255, 255, 255, 0.05) 100%);
   background-size: 1000px 100%;
   animation: shimmer 2s infinite;
 }
@@ -268,12 +269,10 @@ input[type="range"]::-moz-range-thumb:hover {
 /* Holographic Effect */
 .holographic {
   position: relative;
-  background: linear-gradient(
-    135deg,
-    rgba(0, 217, 255, 0.1) 0%,
-    rgba(176, 38, 255, 0.1) 50%,
-    rgba(0, 255, 240, 0.1) 100%
-  );
+  background: linear-gradient(135deg,
+      rgba(0, 217, 255, 0.1) 0%,
+      rgba(176, 38, 255, 0.1) 50%,
+      rgba(0, 255, 240, 0.1) 100%);
   border: 1px solid rgba(255, 255, 255, 0.2);
 }
 
@@ -284,21 +283,22 @@ input[type="range"]::-moz-range-thumb:hover {
   left: 0;
   right: 0;
   bottom: 0;
-  background: linear-gradient(
-    45deg,
-    transparent 30%,
-    rgba(255, 255, 255, 0.1) 50%,
-    transparent 70%
-  );
+  background: linear-gradient(45deg,
+      transparent 30%,
+      rgba(255, 255, 255, 0.1) 50%,
+      transparent 70%);
   background-size: 200% 200%;
   animation: holographic-shine 3s ease-in-out infinite;
   pointer-events: none;
 }
 
 @keyframes holographic-shine {
-  0%, 100% {
+
+  0%,
+  100% {
     background-position: 0% 0%;
   }
+
   50% {
     background-position: 100% 100%;
   }
@@ -367,7 +367,7 @@ p {
 /* Utility Classes */
 .text-glow {
   text-shadow: 0 0 20px rgba(0, 217, 255, 0.8),
-               0 0 40px rgba(0, 217, 255, 0.4);
+    0 0 40px rgba(0, 217, 255, 0.4);
 }
 
 .backdrop-blur-strong {
