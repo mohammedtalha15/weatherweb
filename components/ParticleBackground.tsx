@@ -2,7 +2,7 @@
 
 import { useEffect, useRef } from 'react';
 
-export default function ParticleBackground() {
+export default function CloudBackground() {
     const canvasRef = useRef<HTMLCanvasElement>(null);
 
     useEffect(() => {
@@ -20,15 +20,14 @@ export default function ParticleBackground() {
         resizeCanvas();
         window.addEventListener('resize', resizeCanvas);
 
-        // Particle class
-        class Particle {
+        // Cloud class
+        class Cloud {
             x: number;
             y: number;
-            size: number;
+            width: number;
+            height: number;
             speedX: number;
-            speedY: number;
             opacity: number;
-            color: string;
             canvasWidth: number;
             canvasHeight: number;
 
@@ -37,80 +36,72 @@ export default function ParticleBackground() {
                 this.canvasHeight = height;
                 this.x = Math.random() * width;
                 this.y = Math.random() * height;
-                this.size = Math.random() * 3 + 1;
-                this.speedX = (Math.random() - 0.5) * 0.5;
-                this.speedY = (Math.random() - 0.5) * 0.5;
-                this.opacity = Math.random() * 0.5 + 0.2;
-
-                // Random neon colors
-                const colors = ['#00D9FF', '#B026FF', '#00FFF0', '#FF006E'];
-                this.color = colors[Math.floor(Math.random() * colors.length)];
+                this.width = Math.random() * 200 + 100; // 100-300px wide
+                this.height = this.width * 0.6; // Maintain aspect ratio
+                this.speedX = Math.random() * 0.3 + 0.1; // Very slow drift
+                this.opacity = Math.random() * 0.05 + 0.03; // 3-8% opacity
             }
 
             update() {
                 this.x += this.speedX;
-                this.y += this.speedY;
 
                 // Wrap around screen
-                if (this.x > this.canvasWidth) this.x = 0;
-                if (this.x < 0) this.x = this.canvasWidth;
-                if (this.y > this.canvasHeight) this.y = 0;
-                if (this.y < 0) this.y = this.canvasHeight;
+                if (this.x > this.canvasWidth + this.width) {
+                    this.x = -this.width;
+                }
             }
 
             draw() {
                 if (!ctx) return;
-                ctx.fillStyle = this.color;
-                ctx.globalAlpha = this.opacity;
-                ctx.beginPath();
-                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
-                ctx.fill();
 
-                // Add glow
-                ctx.shadowBlur = 20;
-                ctx.shadowColor = this.color;
-                ctx.fill();
-                ctx.shadowBlur = 0;
+                ctx.save();
+                ctx.globalAlpha = this.opacity;
+
+                // Draw soft cloud shape using multiple circles
+                ctx.fillStyle = '#ffffff';
+
+                const centerX = this.x;
+                const centerY = this.y;
+                const radius = this.width / 6;
+
+                // Create cloud with overlapping circles
+                for (let i = 0; i < 5; i++) {
+                    const offsetX = (i - 2) * (radius * 0.8);
+                    const offsetY = Math.sin(i) * (radius * 0.3);
+                    const circleRadius = radius * (0.8 + Math.random() * 0.4);
+
+                    ctx.beginPath();
+                    ctx.arc(
+                        centerX + offsetX,
+                        centerY + offsetY,
+                        circleRadius,
+                        0,
+                        Math.PI * 2
+                    );
+                    ctx.fill();
+                }
+
+                ctx.restore();
             }
         }
 
-        // Create particles
-        const particleCount = 100;
-        const particles: Particle[] = [];
-        for (let i = 0; i < particleCount; i++) {
-            particles.push(new Particle(canvas.width, canvas.height));
+        // Create clouds
+        const cloudCount = 8;
+        const clouds: Cloud[] = [];
+        for (let i = 0; i < cloudCount; i++) {
+            clouds.push(new Cloud(canvas.width, canvas.height));
         }
 
         // Animation loop
         let animationFrameId: number;
         const animate = () => {
-            ctx.fillStyle = 'rgba(10, 0, 21, 0.1)';
-            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            // Clear with transparent background
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-            particles.forEach((particle) => {
-                particle.update();
-                particle.draw();
+            clouds.forEach((cloud) => {
+                cloud.update();
+                cloud.draw();
             });
-
-            // Draw connections between nearby particles
-            ctx.globalAlpha = 0.1;
-            for (let i = 0; i < particles.length; i++) {
-                for (let j = i + 1; j < particles.length; j++) {
-                    const dx = particles[i].x - particles[j].x;
-                    const dy = particles[i].y - particles[j].y;
-                    const distance = Math.sqrt(dx * dx + dy * dy);
-
-                    if (distance < 150) {
-                        ctx.strokeStyle = '#00D9FF';
-                        ctx.lineWidth = 1;
-                        ctx.beginPath();
-                        ctx.moveTo(particles[i].x, particles[i].y);
-                        ctx.lineTo(particles[j].x, particles[j].y);
-                        ctx.stroke();
-                    }
-                }
-            }
-            ctx.globalAlpha = 1;
 
             animationFrameId = requestAnimationFrame(animate);
         };
@@ -126,7 +117,7 @@ export default function ParticleBackground() {
     return (
         <canvas
             ref={canvasRef}
-            className="particle-bg"
+            className="cloud-bg"
             style={{
                 position: 'fixed',
                 top: 0,
