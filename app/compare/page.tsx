@@ -33,7 +33,7 @@ export default function ComparePage() {
     };
 
     return (
-        <div className="min-h-screen px-4 py-8">
+        <div className="min-h-screen px-4 py-24 bg-[#1a1a1a]">
             <div className="max-w-[1800px] mx-auto">
                 {/* Header */}
                 <motion.div
@@ -41,7 +41,7 @@ export default function ComparePage() {
                     animate={{ opacity: 1, y: 0 }}
                     className="text-center mb-12"
                 >
-                    <h1 className="text-4xl md:text-5xl font-bold gradient-text mb-4">
+                    <h1 className="text-4xl md:text-5xl font-bold text-white mb-4">
                         Earth vs Modified Physics
                     </h1>
                     <p className="text-gray-400 text-lg">
@@ -103,30 +103,34 @@ export default function ComparePage() {
                     <motion.div
                         initial={{ opacity: 0, x: -20 }}
                         animate={{ opacity: 1, x: 0 }}
-                        className="glass-panel p-6"
+                        className="weather-panel p-6 bg-neutral-900/50 border-neutral-800"
                     >
                         <div className="flex items-center justify-between mb-4">
                             <h2 className="text-2xl font-bold text-white">🌍 Earth Normal</h2>
-                            <span className="px-3 py-1 rounded-full bg-green-500/20 text-green-300 text-sm">
+                            <span className="px-3 py-1 rounded-full bg-green-500/20 text-green-300 text-sm border border-green-500/30">
                                 Baseline
                             </span>
                         </div>
-                        <Globe parameters={DEFAULT_PARAMS} weather={earthWeather} />
+                        <div className="h-[400px] rounded-xl overflow-hidden bg-black/20 border border-white/5">
+                            <Globe parameters={DEFAULT_PARAMS} weather={earthWeather} />
+                        </div>
                     </motion.div>
 
                     {/* Modified Physics */}
                     <motion.div
                         initial={{ opacity: 0, x: 20 }}
                         animate={{ opacity: 1, x: 0 }}
-                        className="glass-panel p-6"
+                        className="weather-panel p-6 bg-neutral-900/50 border-neutral-800"
                     >
                         <div className="flex items-center justify-between mb-4">
                             <h2 className="text-2xl font-bold text-white">🔬 Modified Physics</h2>
-                            <span className="px-3 py-1 rounded-full bg-purple-500/20 text-purple-300 text-sm">
+                            <span className="px-3 py-1 rounded-full bg-purple-500/20 text-purple-300 text-sm border border-purple-500/30">
                                 Custom
                             </span>
                         </div>
-                        <Globe parameters={modifiedParams} weather={modifiedWeather} />
+                        <div className="h-[400px] rounded-xl overflow-hidden bg-black/20 border border-white/5">
+                            <Globe parameters={modifiedParams} weather={modifiedWeather} />
+                        </div>
                     </motion.div>
                 </div>
 
@@ -135,10 +139,10 @@ export default function ComparePage() {
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: 0.3 }}
-                    className="glass-panel p-8"
+                    className="weather-panel p-8 bg-neutral-900/50 border-neutral-800"
                 >
                     <h2 className="text-3xl font-bold text-white mb-6 flex items-center gap-2">
-                        <span className="text-[#00D9FF]">📊</span>
+                        <span className="text-blue-400">📊</span>
                         Weather Comparison
                     </h2>
 
@@ -147,9 +151,9 @@ export default function ComparePage() {
                             <thead>
                                 <tr className="border-b border-white/10">
                                     <th className="text-left py-4 px-4 text-gray-400 font-medium">Metric</th>
-                                    <th className="text-center py-4 px-4 text-green-300 font-medium">Earth Normal</th>
-                                    <th className="text-center py-4 px-4 text-purple-300 font-medium">Modified</th>
-                                    <th className="text-center py-4 px-4 text-[#00D9FF] font-medium">Difference</th>
+                                    <th className="text-center py-4 px-4 text-green-400 font-medium">Earth Normal</th>
+                                    <th className="text-center py-4 px-4 text-purple-400 font-medium">Modified</th>
+                                    <th className="text-center py-4 px-4 text-blue-400 font-medium">Difference</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -211,7 +215,7 @@ export default function ComparePage() {
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: 0.5 }}
-                    className="mt-8 glass-panel p-8"
+                    className="mt-8 weather-panel p-8 bg-neutral-900/50 border-neutral-800"
                 >
                     <h2 className="text-2xl font-bold text-white mb-4">Impact Summary</h2>
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
@@ -219,19 +223,19 @@ export default function ComparePage() {
                             title="Temperature Change"
                             value={getDifference(earthWeather.temperature, modifiedWeather.temperature)}
                             description={modifiedWeather.temperature > earthWeather.temperature ? 'Warmer climate' : 'Cooler climate'}
-                            color="#FF006E"
+                            color="#ef4444"
                         />
                         <ImpactCard
                             title="Storm Risk Change"
                             value={getDifferencePercent(earthWeather.stormProbability, modifiedWeather.stormProbability)}
                             description={modifiedWeather.stormProbability > earthWeather.stormProbability ? 'More storms' : 'Fewer storms'}
-                            color="#B026FF"
+                            color="#a855f7"
                         />
                         <ImpactCard
                             title="Comfort Change"
                             value={getDifference(earthWeather.comfortIndex, modifiedWeather.comfortIndex)}
                             description={modifiedWeather.comfortIndex > earthWeather.comfortIndex ? 'More comfortable' : 'Less comfortable'}
-                            color="#00D9FF"
+                            color="#3b82f6"
                         />
                     </div>
                 </motion.div>
@@ -257,11 +261,11 @@ function ComparisonRow({
 
     return (
         <tr className="border-b border-white/5 hover:bg-white/5 transition-colors">
-            <td className="py-4 px-4 text-white font-medium">{metric}</td>
-            <td className="py-4 px-4 text-center text-green-300">
+            <td className="py-4 px-4 text-gray-200 font-medium">{metric}</td>
+            <td className="py-4 px-4 text-center text-green-400">
                 {earthValue.toFixed(1)} {unit}
             </td>
-            <td className="py-4 px-4 text-center text-purple-300">
+            <td className="py-4 px-4 text-center text-purple-400">
                 {modifiedValue.toFixed(1)} {unit}
             </td>
             <td className={`py-4 px-4 text-center font-bold ${diffColor}`}>
@@ -283,7 +287,7 @@ function ImpactCard({
     color: string;
 }) {
     return (
-        <div className="glass-card p-6 text-center">
+        <div className="weather-card p-6 text-center bg-neutral-800/50 border-neutral-700">
             <h3 className="text-sm text-gray-400 mb-2 uppercase tracking-wide">{title}</h3>
             <div className="text-4xl font-bold mb-2" style={{ color }}>
                 {value}

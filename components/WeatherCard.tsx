@@ -67,7 +67,7 @@ export default function WeatherCard({
                 y: -4,
                 transition: { duration: 0.2 }
             }}
-            className="weather-card p-6 cursor-pointer hover-lift"
+            className="weather-card p-6 cursor-pointer hover-lift bg-neutral-900/50 border-neutral-800"
         >
             {/* Header */}
             <div className="flex items-center justify-between mb-4">
@@ -98,7 +98,7 @@ export default function WeatherCard({
             </div>
 
             {/* Title */}
-            <h3 className="text-sm font-medium text-gray-500 mb-2 uppercase tracking-wide">
+            <h3 className="text-sm font-medium text-gray-400 mb-2 uppercase tracking-wide">
                 {title}
             </h3>
 
@@ -108,18 +108,18 @@ export default function WeatherCard({
                     key={value}
                     initial={{ scale: 1.1, opacity: 0 }}
                     animate={{ scale: 1, opacity: 1 }}
-                    className="metric-value"
+                    className="metric-value font-bold text-3xl"
                     style={{ color: severityColor }}
                 >
                     {formatNumber(value, 1)}
                 </motion.span>
-                <span className="text-lg text-gray-400 font-medium">
+                <span className="text-lg text-gray-500 font-medium">
                     {unit}
                 </span>
             </div>
 
             {/* Status Bar */}
-            <div className="h-1.5 bg-gray-100 rounded-full overflow-hidden">
+            <div className="h-1.5 bg-neutral-800 rounded-full overflow-hidden">
                 <motion.div
                     initial={{ width: 0 }}
                     animate={{ width: `${getSeverityLevel(severity)}%` }}

@@ -5,7 +5,7 @@ import { Atom, Cloud, Wind, Thermometer, Droplets, Gauge, Sun, Leaf } from 'luci
 
 export default function AboutPage() {
     return (
-        <div className="min-h-screen px-4 py-8">
+        <div className="min-h-screen px-4 py-24 bg-[#1a1a1a]">
             <div className="max-w-6xl mx-auto">
                 {/* Header */}
                 <motion.div
@@ -13,10 +13,10 @@ export default function AboutPage() {
                     animate={{ opacity: 1, y: 0 }}
                     className="text-center mb-16"
                 >
-                    <h1 className="text-5xl md:text-6xl font-bold gradient-text mb-6">
+                    <h1 className="text-5xl md:text-6xl font-bold text-white mb-6">
                         About the Physics
                     </h1>
-                    <p className="text-xl text-gray-300 max-w-3xl mx-auto leading-relaxed">
+                    <p className="text-xl text-gray-400 max-w-3xl mx-auto leading-relaxed">
                         Understanding how fundamental physics parameters shape our weather and climate
                     </p>
                 </motion.div>
@@ -26,15 +26,15 @@ export default function AboutPage() {
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: 0.2 }}
-                    className="glass-panel p-8 mb-12"
+                    className="weather-panel p-8 mb-12 bg-neutral-900/50 border-neutral-800"
                 >
                     <h2 className="text-3xl font-bold text-white mb-4">How It Works</h2>
-                    <p className="text-gray-300 leading-relaxed mb-4">
+                    <p className="text-gray-400 leading-relaxed mb-4">
                         This simulator uses real physics equations to calculate how weather would change if we could modify
                         fundamental properties of our planet and atmosphere. Each parameter affects multiple weather outcomes
                         in interconnected ways, just like in real atmospheric science.
                     </p>
-                    <p className="text-gray-300 leading-relaxed">
+                    <p className="text-gray-400 leading-relaxed">
                         The AI-powered explanations help you understand not just <em>what</em> changes, but <em>why</em> it happens,
                         making complex climate science accessible and interactive.
                     </p>
@@ -45,7 +45,7 @@ export default function AboutPage() {
                     <h2 className="text-3xl font-bold text-white mb-8 text-center">Physics Parameters Explained</h2>
 
                     <ParameterCard
-                        icon={<Atom className="text-[#00D9FF]" size={32} />}
+                        icon={<Atom className="text-blue-400" size={32} />}
                         title="Gravity"
                         description="The force that pulls everything toward Earth's center"
                         effects={[
@@ -58,7 +58,7 @@ export default function AboutPage() {
                     />
 
                     <ParameterCard
-                        icon={<Wind className="text-[#B026FF]" size={32} />}
+                        icon={<Wind className="text-purple-400" size={32} />}
                         title="Air Density"
                         description="How tightly packed air molecules are"
                         effects={[
@@ -71,7 +71,7 @@ export default function AboutPage() {
                     />
 
                     <ParameterCard
-                        icon={<Gauge className="text-[#00FFF0]" size={32} />}
+                        icon={<Gauge className="text-cyan-400" size={32} />}
                         title="Atmospheric Pressure"
                         description="The weight of air pressing down on the surface"
                         effects={[
@@ -84,7 +84,7 @@ export default function AboutPage() {
                     />
 
                     <ParameterCard
-                        icon={<Leaf className="text-[#50E3C2]" size={32} />}
+                        icon={<Leaf className="text-green-400" size={32} />}
                         title="CO₂ Concentration"
                         description="Amount of carbon dioxide in the atmosphere"
                         effects={[
@@ -97,7 +97,7 @@ export default function AboutPage() {
                     />
 
                     <ParameterCard
-                        icon={<Sun className="text-[#F5A623]" size={32} />}
+                        icon={<Sun className="text-amber-400" size={32} />}
                         title="Sunlight Intensity"
                         description="Amount of solar radiation reaching the surface"
                         effects={[
@@ -110,7 +110,7 @@ export default function AboutPage() {
                     />
 
                     <ParameterCard
-                        icon={<Droplets className="text-[#00D9FF]" size={32} />}
+                        icon={<Droplets className="text-blue-400" size={32} />}
                         title="Humidity"
                         description="Amount of water vapor in the air"
                         effects={[
@@ -123,7 +123,7 @@ export default function AboutPage() {
                     />
 
                     <ParameterCard
-                        icon={<Wind className="text-[#B026FF]" size={32} />}
+                        icon={<Wind className="text-purple-400" size={32} />}
                         title="Wind Drag"
                         description="Air resistance affecting wind movement"
                         effects={[
@@ -136,7 +136,7 @@ export default function AboutPage() {
                     />
 
                     <ParameterCard
-                        icon={<Cloud className="text-[#00FFF0]" size={32} />}
+                        icon={<Cloud className="text-cyan-400" size={32} />}
                         title="Cloud Condensation"
                         description="How quickly water vapor forms clouds"
                         effects={[
@@ -154,7 +154,7 @@ export default function AboutPage() {
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: 0.9 }}
-                    className="glass-panel p-8 mb-12"
+                    className="weather-panel p-8 mb-12 bg-neutral-900/50 border-neutral-800"
                 >
                     <h2 className="text-3xl font-bold text-white mb-6">Weather Outputs</h2>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -190,7 +190,7 @@ export default function AboutPage() {
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: 1.0 }}
-                    className="glass-panel p-8"
+                    className="weather-panel p-8 bg-neutral-900/50 border-neutral-800"
                 >
                     <h2 className="text-3xl font-bold text-white mb-6">Technology Stack</h2>
                     <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
@@ -229,7 +229,7 @@ function ParameterCard({
             initial={{ opacity: 0, x: -20 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ delay }}
-            className="glass-card p-6 hover:scale-[1.02] transition-transform"
+            className="weather-card p-6 hover:scale-[1.02] transition-transform bg-neutral-900/50 border-neutral-800"
         >
             <div className="flex items-start gap-4">
                 <div className="p-3 rounded-xl bg-white/5 flex-shrink-0">
@@ -237,10 +237,10 @@ function ParameterCard({
                 </div>
                 <div className="flex-1">
                     <h3 className="text-2xl font-bold text-white mb-2">{title}</h3>
-                    <p className="text-gray-300 mb-4">{description}</p>
+                    <p className="text-gray-400 mb-4">{description}</p>
 
                     <div className="space-y-2 mb-4">
-                        <p className="text-sm font-semibold text-[#00D9FF]">Effects:</p>
+                        <p className="text-sm font-semibold text-blue-400">Effects:</p>
                         {effects.map((effect, i) => (
                             <p key={i} className="text-sm text-gray-400 pl-4 border-l-2 border-white/10">
                                 • {effect}
@@ -248,8 +248,8 @@ function ParameterCard({
                         ))}
                     </div>
 
-                    <div className="p-3 rounded-lg bg-purple-500/10 border border-purple-500/20">
-                        <p className="text-sm text-purple-200">
+                    <div className="p-3 rounded-lg bg-purple-900/20 border border-purple-500/20">
+                        <p className="text-sm text-purple-300">
                             <span className="font-semibold">Real World:</span> {realWorld}
                         </p>
                     </div>
@@ -270,7 +270,7 @@ function OutputExplanation({ title, description }: { title: string; description:
 
 function TechBadge({ name }: { name: string }) {
     return (
-        <div className="px-4 py-2 rounded-lg bg-gradient-to-r from-[#00D9FF]/20 to-[#B026FF]/20 border border-white/10 text-center">
+        <div className="px-4 py-2 rounded-lg bg-white/5 border border-white/10 text-center hover:bg-white/10 transition-colors">
             <span className="text-sm font-medium text-white">{name}</span>
         </div>
     );

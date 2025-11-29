@@ -65,7 +65,7 @@ export default function SimulationPage() {
     };
 
     return (
-        <div className="min-h-screen px-4 py-8">
+        <div className="min-h-screen px-4 py-24 bg-[#1a1a1a]">
             <div className="max-w-[1800px] mx-auto">
                 {/* Header */}
                 <motion.div
@@ -74,17 +74,17 @@ export default function SimulationPage() {
                     className="flex flex-col md:flex-row justify-between items-center mb-8 gap-4"
                 >
                     <div>
-                        <h1 className="text-4xl md:text-5xl font-bold text-gray-800 mb-2">
+                        <h1 className="text-4xl md:text-5xl font-bold text-white mb-2">
                             Weather Simulation Dashboard
                         </h1>
-                        <p className="text-gray-600">
+                        <p className="text-gray-400">
                             Adjust physics parameters and observe real-time weather changes
                         </p>
                     </div>
 
                     <button
                         onClick={handleReset}
-                        className="btn-secondary flex items-center gap-2"
+                        className="btn-secondary flex items-center gap-2 bg-neutral-800 text-white border-neutral-700 hover:bg-neutral-700"
                     >
                         <RotateCcw size={18} />
                         Reset to Earth Normal
@@ -95,7 +95,7 @@ export default function SimulationPage() {
                 <div className="grid grid-cols-1 xl:grid-cols-12 gap-6">
                     {/* Left Column - Physics Controls */}
                     <div className="xl:col-span-3 space-y-4">
-                        <h2 className="text-2xl font-bold text-gray-800 mb-4 flex items-center gap-2">
+                        <h2 className="text-2xl font-bold text-white mb-4 flex items-center gap-2">
                             <span>⚙️</span>
                             Physics Controls
                         </h2>
@@ -207,20 +207,22 @@ export default function SimulationPage() {
 
                     {/* Center Column - 3D Globe */}
                     <div className="xl:col-span-5">
-                        <div className="weather-panel p-6 h-full min-h-[600px]">
-                            <h2 className="text-2xl font-bold text-gray-800 mb-4 flex items-center gap-2">
+                        <div className="bg-neutral-950 border border-neutral-800 rounded-2xl p-6 h-full min-h-[600px] flex flex-col">
+                            <h2 className="text-2xl font-bold text-white mb-4 flex items-center gap-2">
                                 <span>🌐</span>
                                 Live Simulation
                             </h2>
-                            {weather && (
-                                <Globe parameters={parameters} weather={weather} />
-                            )}
+                            <div className="flex-1 bg-black/20 rounded-xl border border-white/5 overflow-hidden relative">
+                                {weather && (
+                                    <Globe parameters={parameters} weather={weather} />
+                                )}
+                            </div>
                         </div>
                     </div>
 
                     {/* Right Column - Weather Outputs */}
                     <div className="xl:col-span-4 space-y-4">
-                        <h2 className="text-2xl font-bold text-gray-800 mb-4 flex items-center gap-2">
+                        <h2 className="text-2xl font-bold text-white mb-4 flex items-center gap-2">
                             <span>📈</span>
                             Weather Metrics
                         </h2>
