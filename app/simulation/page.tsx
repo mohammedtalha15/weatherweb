@@ -74,10 +74,10 @@ export default function SimulationPage() {
                     className="flex flex-col md:flex-row justify-between items-center mb-8 gap-4"
                 >
                     <div>
-                        <h1 className="text-4xl md:text-5xl font-bold gradient-text mb-2">
+                        <h1 className="text-4xl md:text-5xl font-bold text-gray-800 mb-2">
                             Weather Simulation Dashboard
                         </h1>
-                        <p className="text-gray-400">
+                        <p className="text-gray-600">
                             Adjust physics parameters and observe real-time weather changes
                         </p>
                     </div>
@@ -95,8 +95,8 @@ export default function SimulationPage() {
                 <div className="grid grid-cols-1 xl:grid-cols-12 gap-6">
                     {/* Left Column - Physics Controls */}
                     <div className="xl:col-span-3 space-y-4">
-                        <h2 className="text-2xl font-bold text-white mb-4 flex items-center gap-2">
-                            <span className="text-[#00D9FF]">⚙️</span>
+                        <h2 className="text-2xl font-bold text-gray-800 mb-4 flex items-center gap-2">
+                            <span>⚙️</span>
                             Physics Controls
                         </h2>
 
@@ -207,9 +207,9 @@ export default function SimulationPage() {
 
                     {/* Center Column - 3D Globe */}
                     <div className="xl:col-span-5">
-                        <div className="glass-panel p-6 h-full min-h-[600px]">
-                            <h2 className="text-2xl font-bold text-white mb-4 flex items-center gap-2">
-                                <span className="text-[#B026FF]">🌐</span>
+                        <div className="weather-panel p-6 h-full min-h-[600px]">
+                            <h2 className="text-2xl font-bold text-gray-800 mb-4 flex items-center gap-2">
+                                <span>🌐</span>
                                 Live Simulation
                             </h2>
                             {weather && (
@@ -220,8 +220,8 @@ export default function SimulationPage() {
 
                     {/* Right Column - Weather Outputs */}
                     <div className="xl:col-span-4 space-y-4">
-                        <h2 className="text-2xl font-bold text-white mb-4 flex items-center gap-2">
-                            <span className="text-[#00FFF0]">📈</span>
+                        <h2 className="text-2xl font-bold text-gray-800 mb-4 flex items-center gap-2">
+                            <span>📈</span>
                             Weather Metrics
                         </h2>
 
