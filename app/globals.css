@@ -1,139 +1,58 @@
 @import "tailwindcss";
 
 :root {
-  /* Dark Theme Colors */
-  --background: #1a1a1a;
-  --foreground: #ffffff;
+  /* Primary Colors */
+  --primary: #4A90E2;
+  --primary-light: #A7C7FF;
+  --secondary: #5AC8FA;
 
-  --card: #0a0a0a;
-  /* neutral-950 */
-  --card-foreground: #ffffff;
+  /* Backgrounds */
+  --bg-page: #F5F8FC;
+  --bg-card: #FFFFFF;
+  --bg-card-hover: #FAFAFA;
 
-  --popover: #0a0a0a;
-  --popover-foreground: #ffffff;
+  /* Text */
+  --text-main: #1D1E20;
+  --text-muted: #8E8E93;
+  --text-light: #FFFFFF;
 
-  --primary: #ffffff;
-  --primary-foreground: #000000;
-
-  --secondary: #262626;
-  /* neutral-800 */
-  --secondary-foreground: #ffffff;
-
-  --muted: #262626;
-  --muted-foreground: #a3a3a3;
-
-  /* neutral-400 */
-  /* Dark Glass Effect */
-  .weather-card {
-    background: rgba(20, 20, 20, 0.6);
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    border-radius: 20px;
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
-    transition: all 0.3s ease;
-  }
-
-  .weather-card:hover {
-    transform: translateY(-4px);
-    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.6);
-    border-color: rgba(255, 255, 255, 0.2);
-  }
-
-  .weather-panel {
-    background: rgba(10, 10, 10, 0.8);
-    backdrop-filter: blur(20px);
-    -webkit-backdrop-filter: blur(20px);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    border-radius: 24px;
-    box-shadow: 0 4px 24px rgba(0, 0, 0, 0.4);
-  }
-
-  /* Animations */
-  @keyframes gentle-float {
-
-    0%,
-    100% {
-      transform: translateY(0px);
-    }
-
-    50% {
-      transform: translateY(-8px);
-    }
-  }
-
-  .floating-gentle {
-    animation: gentle-float 8s ease-in-out infinite;
-  }
-
-  @keyframes fade-in-up {
-    from {
-      opacity: 0;
-      transform: translateY(20px);
-    }
-
-    to {
-      opacity: 1;
-      transform: translateY(0);
-    }
-  }
-
-  .fade-in-up {
-    animation: fade-in-up 0.6s ease-out;
-  }
-
-  /* Gradient Text */
-  .gradient-text-soft {
-    background: linear-gradient(135deg, #ffffff, #a3a3a3);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-  }
-
-  /* Cloud Background */
-  .cloud-bg {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    z-index: -1;
-    pointer-events: none;
-    opacity: 0.05;
-  }
-
-  --accent: #262626;
-  --accent-foreground: #ffffff;
-
-  --destructive: #ef4444;
-  --destructive-foreground: #ffffff;
-
-  --border: #262626;
-  --input: #262626;
-  --ring: #ffffff;
-
-  --radius: 0.5rem;
-}
-
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
+  /* Borders & Shadows */
+  --border-subtle: #E5E8EB;
+  --shadow-card: 0 4px 20px rgba(0, 0, 0, 0.03);
+  --shadow-float: 0 8px 30px rgba(74, 144, 226, 0.1);
 }
 
 body {
-  background-color: var(--background);
-  color: var(--foreground);
-  font-family: -apple-system, BlinkMacSystemFont, 'Inter', 'Segoe UI', 'Roboto', sans-serif;
-  overflow-x: hidden;
-  min-height: 100vh;
+  background-color: var(--bg-page);
+  color: var(--text-main);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
-/* Custom Utilities for the Demo */
-.glass-panel {
-  background: rgba(255, 255, 255, 0.05);
-  backdrop-filter: blur(10px);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+/* Utility Classes for the new Design System */
+.weather-card {
+  background-color: var(--bg-card);
+  border: 1px solid var(--border-subtle);
+  border-radius: 20px;
+  box-shadow: var(--shadow-card);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.weather-card:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-float);
+}
+
+.weather-gradient-bg {
+  background: linear-gradient(135deg, #F5F8FC 0%, #E3EEFF 100%);
+}
+
+.text-gradient {
+  background: linear-gradient(135deg, #4A90E2 0%, #5AC8FA 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
 }
 
 /* Scrollbar */
@@ -142,14 +61,14 @@ body {
 }
 
 ::-webkit-scrollbar-track {
-  background: #1a1a1a;
+  background: transparent;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #333;
+  background: #D1D5DB;
   border-radius: 4px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #444;
+  background: #9CA3AF;
 }

@@ -1,20 +1,23 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
+import { Inter, Roboto_Mono } from "next/font/google";
 import "./globals.css";
 import NavBar from "@/components/NavBar";
-import ParticleBackground from "@/components/ParticleBackground";
 
 const inter = Inter({
   subsets: ["latin"],
-  weight: ["300", "400", "500", "600", "700", "800"],
   variable: "--font-inter",
   display: "swap",
 });
 
+const robotoMono = Roboto_Mono({
+  subsets: ["latin"],
+  variable: "--font-roboto-mono",
+  display: "swap",
+});
+
 export const metadata: Metadata = {
-  title: "Physics-Shift Weather Simulator | AI Interactive Climate Engine",
-  description: "Manipulate fundamental physics parameters and observe real-time simulated weather outcomes with AI-powered explanations. A futuristic interactive climate simulation.",
-  keywords: ["weather", "physics", "simulation", "climate", "AI", "interactive"],
+  title: "Weather Physics Simulator",
+  description: "Interactive atmospheric physics simulation",
 };
 
 export default function RootLayout({
@@ -24,10 +27,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${inter.className} antialiased font-sans`}>
-        <ParticleBackground />
+      <body className={`${inter.variable} ${robotoMono.variable} font-sans antialiased min-h-screen weather-gradient-bg`}>
         <NavBar />
-        <main className="pt-24">
+        <main className="pt-20 pb-10">
           {children}
         </main>
       </body>

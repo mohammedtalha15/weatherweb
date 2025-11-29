@@ -1,216 +1,109 @@
-'use client';
-
-import { useState, useEffect } from 'react';
-import { motion } from 'framer-motion';
-import {
-    Sparkles,
-    FlaskConical,
-    Leaf,
-    Heart,
-    AlertTriangle,
-    Lightbulb
-} from 'lucide-react';
-import { AIExplanation } from '@/lib/types';
+"use client";
+import { useState, useEffect } from "react";
+import { motion } from "framer-motion";
+import { Sparkles, FlaskConical, Leaf, Heart, AlertTriangle, Lightbulb } from "lucide-react";
+import { AIExplanation, PhysicsParameters, WeatherOutput } from "@/lib/types";
 
 interface AISummaryProps {
-    explanation: AIExplanation | null;
-    loading?: boolean;
+    weather: WeatherOutput;
+    parameters: PhysicsParameters;
 }
 
-export default function AISummary({ explanation, loading = false }: AISummaryProps) {
-    const [displayedText, setDisplayedText] = useState<Record<string, string>>({});
-    const [currentSection, setCurrentSection] = useState<string>('');
+export default function AISummary({ weather, parameters }: AISummaryProps) {
+    const [explanation, setExplanation] = useState<AIExplanation | null>(null);
+    const [loading, setLoading] = useState(false);
 
-    // Typewriter effect
     useEffect(() => {
-        if (!explanation || loading) {
-            setDisplayedText({});
-            return;
-        }
-
-        const sections = [
-            { key: 'summary', text: explanation.summary },
-            { key: 'scientific', text: explanation.scientific },
-            { key: 'biological', text: explanation.biological },
-            { key: 'dayFeeling', text: explanation.dayFeeling },
-            { key: 'risks', text: explanation.risks },
-            { key: 'funFact', text: explanation.funFact },
-        ];
-
-        let sectionIndex = 0;
-        let charIndex = 0;
-
-        const typeWriter = setInterval(() => {
-            if (sectionIndex >= sections.length) {
-                clearInterval(typeWriter);
-                return;
+        const fetchAIExplanation = async () => {
+            setLoading(true);
+            try {
+                const response = await fetch('/api/ai-summary', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ parameters, weatherOutput: weather }),
+                });
+                const data = await response.json();
+                setExplanation(data);
+            } catch (error) {
+                console.error('Failed to fetch AI explanation:', error);
+            } finally {
+                setLoading(false);
             }
+        };
 
-            const section = sections[sectionIndex];
-            setCurrentSection(section.key);
+        const timeout = setTimeout(fetchAIExplanation, 1000);
+        return () => clearTimeout(timeout);
+    }, [weather, parameters]);
 
-            if (charIndex < section.text.length) {
-                setDisplayedText(prev => ({
-                    ...prev,
-                    [section.key]: section.text.substring(0, charIndex + 1),
-                }));
-                charIndex++;
-            } else {
-                sectionIndex++;
-                charIndex = 0;
-            }
-        }, 15); // Faster typing
-
-        return () => clearInterval(typeWriter);
-    }, [explanation, loading]);
-
-    if (loading) {
+    if (loading || !explanation) {
         return (
-            <div className="weather-panel p-8 bg-neutral-900/50 border-neutral-800">
-                <div className="flex items-center gap-3 mb-6">
-                    <Sparkles className="text-blue-500 animate-pulse" size={24} />
-                    <h2 className="text-2xl font-bold text-white">AI Weather Analysis</h2>
+            <div className="p-6">
+                <div className="flex items-center gap-2 mb-4">
+                    <Sparkles className="text-blue-500 animate-pulse" size={20} />
+                    <h3 className="font-semibold text-neutral-700">AI Analysis</h3>
                 </div>
-                <div className="space-y-4">
-                    {[1, 2, 3].map((i) => (
-                        <div key={i} className="h-20 rounded-lg bg-neutral-800 animate-pulse" />
-                    ))}
+                <div className="space-y-3">
+                    <div className="h-4 bg-neutral-100 rounded w-3/4 animate-pulse" />
+                    <div className="h-4 bg-neutral-100 rounded w-full animate-pulse" />
+                    <div className="h-4 bg-neutral-100 rounded w-5/6 animate-pulse" />
                 </div>
             </div>
         );
     }
-
-    if (!explanation) {
-        return (
-            <div className="weather-panel p-8 text-center bg-neutral-900/50 border-neutral-800">
-                <Sparkles className="text-blue-500 mx-auto mb-4" size={48} />
-                <p className="text-gray-400">
-                    Adjust physics parameters to see AI-powered weather analysis
-                </p>
-            </div>
-        );
-    }
-
-    const sections = [
-        {
-            key: 'summary',
-            title: 'Simple Summary',
-            icon: Sparkles,
-            color: '#60a5fa',
-            text: displayedText.summary || '',
-        },
-        {
-            key: 'scientific',
-            title: 'Scientific Explanation',
-            icon: FlaskConical,
-            color: '#3b82f6',
-            text: displayedText.scientific || '',
-        },
-        {
-            key: 'biological',
-            title: 'Biological Impact',
-            icon: Leaf,
-            color: '#10b981',
-            text: displayedText.biological || '',
-        },
-        {
-            key: 'dayFeeling',
-            title: 'What Your Day Feels Like',
-            icon: Heart,
-            color: '#f59e0b',
-            text: displayedText.dayFeeling || '',
-        },
-        {
-            key: 'risks',
-            title: 'Risks & Anomalies',
-            icon: AlertTriangle,
-            color: '#ef4444',
-            text: displayedText.risks || '',
-        },
-        {
-            key: 'funFact',
-            title: 'Fun Fact',
-            icon: Lightbulb,
-            color: '#fbbf24',
-            text: displayedText.funFact || '',
-        },
-    ];
 
     return (
-        <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5 }}
-            className="weather-panel p-8 bg-neutral-900/50 border-neutral-800"
-        >
-            {/* Header */}
-            <div className="flex items-center gap-3 mb-6">
-                <Sparkles className="text-blue-500" size={24} />
-                <h2 className="text-2xl font-bold text-white">AI Weather Analysis</h2>
+        <div className="p-2">
+            <div className="flex items-center gap-2 mb-6">
+                <div className="p-2 bg-blue-50 rounded-lg">
+                    <Sparkles className="text-blue-500" size={20} />
+                </div>
+                <h3 className="font-bold text-neutral-800 text-lg">AI Analysis</h3>
             </div>
 
-            {/* Comfort Index */}
-            <div className="mb-8 p-6 rounded-2xl bg-neutral-800/50 border border-neutral-700">
-                <div className="flex items-center justify-between mb-3">
-                    <span className="text-sm font-medium text-gray-400">Human Comfort Index</span>
-                    <span className="text-4xl font-bold text-blue-400">
-                        {explanation.comfortIndex}/100
-                    </span>
-                </div>
-                <div className="h-2 bg-neutral-700 rounded-full overflow-hidden">
-                    <motion.div
-                        initial={{ width: 0 }}
-                        animate={{ width: `${explanation.comfortIndex}%` }}
-                        transition={{ duration: 1, delay: 0.3 }}
-                        className="h-full bg-gradient-to-r from-blue-400 to-blue-600 rounded-full"
-                    />
-                </div>
-            </div>
-
-            {/* Sections */}
             <div className="space-y-6">
-                {sections.map((section, index) => {
-                    const Icon = section.icon;
-                    const isTyping = currentSection === section.key;
-
-                    return (
-                        <motion.div
-                            key={section.key}
-                            initial={{ opacity: 0, x: -15 }}
-                            animate={{ opacity: 1, x: 0 }}
-                            transition={{ delay: index * 0.1 }}
-                            className="weather-card p-5 bg-neutral-800/30 border-neutral-700/50"
-                        >
-                            {/* Section Header */}
-                            <div className="flex items-center gap-3 mb-3">
-                                <div
-                                    className="p-2.5 rounded-xl"
-                                    style={{
-                                        backgroundColor: `${section.color}15`,
-                                    }}
-                                >
-                                    <Icon size={20} style={{ color: section.color }} />
-                                </div>
-                                <h3 className="text-lg font-semibold text-gray-200">
-                                    {section.title}
-                                </h3>
-                            </div>
-
-                            {/* Section Content */}
-                            <div className="text-gray-400 leading-relaxed pl-11">
-                                {section.text}
-                                {isTyping && (
-                                    <motion.span
-                                        animate={{ opacity: [1, 0] }}
-                                        transition={{ duration: 0.5, repeat: Infinity }}
-                                        className="inline-block w-0.5 h-5 ml-1 bg-blue-500"
-                                    />
-                                )}
-                            </div>
-                        </motion.div>
-                    );
-                })}
+                <SummarySection
+                    icon={Sparkles}
+                    title="Summary"
+                    content={explanation.summary}
+                    color="text-blue-500"
+                    bgColor="bg-blue-50"
+                />
+                <SummarySection
+                    icon={FlaskConical}
+                    title="Scientific"
+                    content={explanation.scientific}
+                    color="text-purple-500"
+                    bgColor="bg-purple-50"
+                />
+                <SummarySection
+                    icon={Leaf}
+                    title="Biological"
+                    content={explanation.biological}
+                    color="text-green-500"
+                    bgColor="bg-green-50"
+                />
+                <SummarySection
+                    icon={AlertTriangle}
+                    title="Risks"
+                    content={explanation.risks}
+                    color="text-orange-500"
+                    bgColor="bg-orange-50"
+                />
             </div>
-        </motion.div>
+        </div>
+    );
+}
+
+function SummarySection({ icon: Icon, title, content, color, bgColor }: { icon: any, title: string, content: string, color: string, bgColor: string }) {
+    return (
+        <div className="flex gap-4">
+            <div className={`w-8 h-8 rounded-lg ${bgColor} flex items-center justify-center flex-shrink-0 mt-1`}>
+                <Icon size={16} className={color} />
+            </div>
+            <div>
+                <h4 className={`text-sm font-semibold mb-1 ${color}`}>{title}</h4>
+                <p className="text-sm text-neutral-600 leading-relaxed">{content}</p>
+            </div>
+        </div>
     );
 }

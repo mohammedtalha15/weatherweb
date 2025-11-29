@@ -1,211 +1,191 @@
-'use client';
-
-import { useState, useEffect } from 'react';
-import { motion } from 'framer-motion';
-import { RotateCcw, Download } from 'lucide-react';
-import PhysicsSlider from '@/components/PhysicsSlider';
-import WeatherCard from '@/components/WeatherCard';
-import Globe from '@/components/Globe';
-import AISummary from '@/components/AISummary';
-import { PhysicsParameters, WeatherOutput, AIExplanation } from '@/lib/types';
-import { DEFAULT_PARAMS, PARAM_RANGES } from '@/lib/constants';
-import { simulateWeather } from '@/lib/physicsEngine';
+"use client";
+import { useState, useEffect } from "react";
+import { motion } from "framer-motion";
+import { RotateCcw } from "lucide-react";
+import Globe from "@/components/Globe";
+import PhysicsSlider from "@/components/PhysicsSlider";
+import WeatherCard from "@/components/WeatherCard";
+import AISummary from "@/components/AISummary";
+import { simulateWeather } from "@/lib/physicsEngine";
+import { DEFAULT_PARAMS, PARAM_RANGES } from "@/lib/constants";
+import { PhysicsParameters } from "@/lib/types";
 
 export default function SimulationPage() {
-    const [parameters, setParameters] = useState<PhysicsParameters>(DEFAULT_PARAMS);
-    const [weather, setWeather] = useState<WeatherOutput | null>(null);
-    const [aiExplanation, setAiExplanation] = useState<AIExplanation | null>(null);
-    const [isLoadingAI, setIsLoadingAI] = useState(false);
+    const [params, setParams] = useState<PhysicsParameters>(DEFAULT_PARAMS);
+    const [weather, setWeather] = useState(simulateWeather(DEFAULT_PARAMS));
+    const [isClient, setIsClient] = useState(false);
 
-    // Update weather when parameters change
     useEffect(() => {
-        const newWeather = simulateWeather(parameters);
-        setWeather(newWeather);
-    }, [parameters]);
+        setIsClient(true);
+    }, []);
 
-    // Fetch AI explanation when weather changes
     useEffect(() => {
-        if (!weather) return;
+        setWeather(simulateWeather(params));
+    }, [params]);
 
-        const fetchAIExplanation = async () => {
-            setIsLoadingAI(true);
-            try {
-                const response = await fetch('/api/ai-summary', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ parameters, weatherOutput: weather }),
-                });
-                const data = await response.json();
-                setAiExplanation(data);
-            } catch (error) {
-                console.error('Failed to fetch AI explanation:', error);
-            } finally {
-                setIsLoadingAI(false);
-            }
-        };
-
-        // Debounce AI requests
-        const timeout = setTimeout(fetchAIExplanation, 1000);
-        return () => clearTimeout(timeout);
-    }, [weather, parameters]);
-
-    const handleParameterChange = (key: keyof PhysicsParameters, value: number) => {
-        setParameters(prev => ({ ...prev, [key]: value }));
+    const handleParamChange = (key: keyof PhysicsParameters, value: number) => {
+        setParams((prev: PhysicsParameters) => ({ ...prev, [key]: value }));
     };
 
-    const handleReset = () => {
-        setParameters(DEFAULT_PARAMS);
+    const resetParams = () => {
+        setParams(DEFAULT_PARAMS);
     };
+
+    if (!isClient) return null;
 
     return (
-        <div className="min-h-screen bg-[#1a1a1a] flex flex-col pt-24 pb-8 px-6">
-            <div className="max-w-7xl mx-auto w-full flex-1 flex flex-col lg:flex-row gap-8">
+        <div className="max-w-7xl mx-auto px-6">
+            <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
 
-                {/* Left: Controls */}
-                <div className="w-full lg:w-80 flex flex-col gap-6">
-                    <div className="flex items-center justify-between">
-                        <h1 className="text-xl font-bold text-white">Simulation</h1>
-                        <button
-                            onClick={handleReset}
-                            className="text-xs text-neutral-500 hover:text-white transition-colors flex items-center gap-1"
-                        >
-                            <RotateCcw size={12} /> Reset
-                        </button>
-                    </div>
+                {/* Left Column: Controls */}
+                <div className="lg:col-span-4 space-y-6">
+                    <div className="bg-white rounded-3xl p-6 border border-neutral-100 shadow-xl shadow-neutral-200/50">
+                        <div className="flex items-center justify-between mb-6">
+                            <h2 className="text-xl font-bold text-neutral-900">Physics Parameters</h2>
+                            <button
+                                onClick={resetParams}
+                                className="p-2 rounded-full hover:bg-neutral-100 text-neutral-400 hover:text-neutral-600 transition-colors"
+                                title="Reset to Earth defaults"
+                            >
+                                <RotateCcw size={18} />
+                            </button>
+                        </div>
 
-                    <div className="space-y-4 overflow-y-auto pr-2 custom-scrollbar max-h-[calc(100vh-200px)]">
-                        <PhysicsSlider
-                            label="Gravity"
-                            value={parameters.gravity}
-                            min={PARAM_RANGES.gravity.min}
-                            max={PARAM_RANGES.gravity.max}
-                            step={PARAM_RANGES.gravity.step}
-                            unit="g"
-                            description="Earth gravity = 1.0"
-                            onChange={(v) => handleParameterChange('gravity', v)}
-                        />
-                        <PhysicsSlider
-                            label="Air Density"
-                            value={parameters.airDensity}
-                            min={PARAM_RANGES.airDensity.min}
-                            max={PARAM_RANGES.airDensity.max}
-                            step={PARAM_RANGES.airDensity.step}
-                            unit="kg/m³"
-                            description="Atmospheric density"
-                            onChange={(v) => handleParameterChange('airDensity', v)}
-                        />
-                        <PhysicsSlider
-                            label="Pressure"
-                            value={parameters.pressure}
-                            min={PARAM_RANGES.pressure.min}
-                            max={PARAM_RANGES.pressure.max}
-                            step={PARAM_RANGES.pressure.step}
-                            unit="mb"
-                            description="Atmospheric pressure"
-                            onChange={(v) => handleParameterChange('pressure', v)}
-                        />
-                        <PhysicsSlider
-                            label="CO₂ Level"
-                            value={parameters.co2}
-                            min={PARAM_RANGES.co2.min}
-                            max={PARAM_RANGES.co2.max}
-                            step={PARAM_RANGES.co2.step}
-                            unit="ppm"
-                            description="Greenhouse gas"
-                            onChange={(v) => handleParameterChange('co2', v)}
-                        />
-                        <PhysicsSlider
-                            label="Sunlight"
-                            value={parameters.sunlight}
-                            min={PARAM_RANGES.sunlight.min}
-                            max={PARAM_RANGES.sunlight.max}
-                            step={PARAM_RANGES.sunlight.step}
-                            unit="x"
-                            description="Solar intensity"
-                            onChange={(v) => handleParameterChange('sunlight', v)}
-                        />
-                        <PhysicsSlider
-                            label="Humidity"
-                            value={parameters.humidity}
-                            min={PARAM_RANGES.humidity.min}
-                            max={PARAM_RANGES.humidity.max}
-                            step={PARAM_RANGES.humidity.step}
-                            unit="%"
-                            description="Moisture"
-                            onChange={(v) => handleParameterChange('humidity', v)}
-                        />
-                        <PhysicsSlider
-                            label="Wind Drag"
-                            value={parameters.windDrag}
-                            min={PARAM_RANGES.windDrag.min}
-                            max={PARAM_RANGES.windDrag.max}
-                            step={PARAM_RANGES.windDrag.step}
-                            unit="x"
-                            description="Air resistance"
-                            onChange={(v) => handleParameterChange('windDrag', v)}
-                        />
-                        <PhysicsSlider
-                            label="Cloud Formation"
-                            value={parameters.cloudCondensation}
-                            min={PARAM_RANGES.cloudCondensation.min}
-                            max={PARAM_RANGES.cloudCondensation.max}
-                            step={PARAM_RANGES.cloudCondensation.step}
-                            unit="x"
-                            description="Condensation rate"
-                            onChange={(v) => handleParameterChange('cloudCondensation', v)}
-                        />
-                    </div>
-                </div>
-
-                {/* Right: Globe & Metrics */}
-                <div className="flex-1 flex flex-col gap-6">
-                    {/* Globe Container */}
-                    <div className="flex-1 min-h-[500px] bg-black/20 rounded-2xl border border-white/5 overflow-hidden relative">
-                        {weather && (
-                            <Globe parameters={parameters} weather={weather} />
-                        )}
-
-                        {/* Overlay Metrics */}
-                        <div className="absolute bottom-6 left-6 right-6 flex flex-wrap gap-4 pointer-events-none">
-                            {weather && (
-                                <>
-                                    <MetricBadge label="Temp" value={`${weather.temperature.toFixed(1)}°C`} />
-                                    <MetricBadge label="Wind" value={`${weather.windSpeed.toFixed(1)} km/h`} />
-                                    <MetricBadge label="Rain" value={`${weather.precipitationChance.toFixed(0)}%`} />
-                                    <MetricBadge label="Comfort" value={`${weather.comfortIndex.toFixed(0)}/100`} />
-                                </>
-                            )}
+                        <div className="space-y-6">
+                            <PhysicsSlider
+                                label="Gravity"
+                                value={params.gravity}
+                                min={PARAM_RANGES.gravity.min}
+                                max={PARAM_RANGES.gravity.max}
+                                step={PARAM_RANGES.gravity.step}
+                                unit="g"
+                                description="Planetary gravitational force"
+                                onChange={(v) => handleParamChange('gravity', v)}
+                            />
+                            <PhysicsSlider
+                                label="Atmospheric Pressure"
+                                value={params.pressure}
+                                min={PARAM_RANGES.pressure.min}
+                                max={PARAM_RANGES.pressure.max}
+                                step={PARAM_RANGES.pressure.step}
+                                unit="atm"
+                                description="Surface air pressure"
+                                onChange={(v) => handleParamChange('pressure', v)}
+                            />
+                            <PhysicsSlider
+                                label="Sunlight Intensity"
+                                value={params.sunlight}
+                                min={PARAM_RANGES.sunlight.min}
+                                max={PARAM_RANGES.sunlight.max}
+                                step={PARAM_RANGES.sunlight.step}
+                                unit="x"
+                                description="Solar radiation strength"
+                                onChange={(v) => handleParamChange('sunlight', v)}
+                            />
+                            <PhysicsSlider
+                                label="CO₂ Concentration"
+                                value={params.co2}
+                                min={PARAM_RANGES.co2.min}
+                                max={PARAM_RANGES.co2.max}
+                                step={PARAM_RANGES.co2.step}
+                                unit="ppm"
+                                description="Greenhouse gas level"
+                                onChange={(v) => handleParamChange('co2', v)}
+                            />
+                            <PhysicsSlider
+                                label="Humidity"
+                                value={params.humidity}
+                                min={PARAM_RANGES.humidity.min}
+                                max={PARAM_RANGES.humidity.max}
+                                step={PARAM_RANGES.humidity.step}
+                                unit="%"
+                                description="Water vapor content"
+                                onChange={(v) => handleParamChange('humidity', v)}
+                            />
+                            <PhysicsSlider
+                                label="Air Density"
+                                value={params.airDensity} // Note: This might be 'airDensity' in types, let me check
+                                min={PARAM_RANGES.airDensity.min}
+                                max={PARAM_RANGES.airDensity.max}
+                                step={PARAM_RANGES.airDensity.step}
+                                unit="kg/m³"
+                                description="Mass per unit volume"
+                                onChange={(v) => handleParamChange('airDensity', v)}
+                            />
                         </div>
                     </div>
 
-                    {/* AI Summary (Minimal) */}
-                    {aiExplanation && (
-                        <motion.div
-                            initial={{ opacity: 0, y: 10 }}
-                            animate={{ opacity: 1, y: 0 }}
-                            className="bg-neutral-900/30 border border-white/5 rounded-xl p-4"
-                        >
-                            <div className="flex items-start gap-3">
-                                <div className="mt-1 text-blue-400">✨</div>
-                                <div>
-                                    <p className="text-sm text-gray-300 leading-relaxed">
-                                        {aiExplanation.summary}
-                                    </p>
-                                </div>
-                            </div>
-                        </motion.div>
-                    )}
+                    {/* AI Summary (Compact) */}
+                    <div className="bg-white rounded-3xl p-6 border border-neutral-100 shadow-xl shadow-neutral-200/50">
+                        <AISummary weather={weather} parameters={params} />
+                    </div>
+                </div>
+
+                {/* Right Column: Visualization & Metrics */}
+                <div className="lg:col-span-8 space-y-6">
+
+                    {/* Globe Visualization */}
+                    <div className="bg-white rounded-3xl overflow-hidden border border-neutral-100 shadow-xl shadow-neutral-200/50 h-[500px] relative">
+                        <div className="absolute top-4 left-6 z-10">
+                            <h2 className="text-lg font-bold text-neutral-900">Global Simulation</h2>
+                            <p className="text-sm text-neutral-500">Real-time atmospheric rendering</p>
+                        </div>
+                        <Globe parameters={params} weather={weather} />
+                    </div>
+
+                    {/* Metrics Grid */}
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                        <WeatherCard
+                            title="Temperature"
+                            value={weather.temperature}
+                            unit="°C"
+                            icon="temp"
+                            severity={weather.temperature > 45 || weather.temperature < -20 ? 'danger' : weather.temperature > 35 || weather.temperature < 0 ? 'warning' : 'safe'}
+                            delay={0}
+                        />
+                        <WeatherCard
+                            title="Precipitation"
+                            value={weather.precipitationChance}
+                            unit="%"
+                            icon="rain"
+                            severity={weather.precipitationChance > 80 ? 'warning' : 'safe'}
+                            delay={0.1}
+                        />
+                        <WeatherCard
+                            title="Wind Speed"
+                            value={weather.windSpeed}
+                            unit="km/h"
+                            icon="wind"
+                            severity={weather.windSpeed > 100 ? 'danger' : weather.windSpeed > 60 ? 'warning' : 'safe'}
+                            delay={0.2}
+                        />
+                        <WeatherCard
+                            title="Storm Risk"
+                            value={weather.stormProbability}
+                            unit="%"
+                            icon="storm"
+                            severity={weather.stormProbability > 70 ? 'danger' : weather.stormProbability > 40 ? 'warning' : 'safe'}
+                            delay={0.3}
+                        />
+                        <WeatherCard
+                            title="Pressure"
+                            value={1013 * params.pressure}
+                            unit="hPa"
+                            icon="pressure"
+                            severity={params.pressure > 2 || params.pressure < 0.5 ? 'warning' : 'safe'}
+                            delay={0.4}
+                        />
+                        <WeatherCard
+                            title="Visibility"
+                            value={weather.visibility}
+                            unit="km"
+                            icon="visibility"
+                            severity={weather.visibility < 2 ? 'danger' : weather.visibility < 5 ? 'warning' : 'safe'}
+                            delay={0.5}
+                        />
+                    </div>
                 </div>
             </div>
-        </div>
-    );
-}
-
-function MetricBadge({ label, value }: { label: string; value: string }) {
-    return (
-        <div className="bg-black/40 backdrop-blur-md border border-white/10 px-4 py-2 rounded-lg text-white pointer-events-auto">
-            <span className="text-xs text-gray-400 uppercase tracking-wider mr-2">{label}</span>
-            <span className="font-mono font-medium">{value}</span>
         </div>
     );
 }
