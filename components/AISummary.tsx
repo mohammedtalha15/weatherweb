@@ -37,15 +37,19 @@ export default function AISummary({ weather, parameters }: AISummaryProps) {
 
     if (loading || !explanation) {
         return (
-            <div className="p-6">
-                <div className="flex items-center gap-2 mb-4">
-                    <Sparkles className="text-blue-500 animate-pulse" size={20} />
-                    <h3 className="font-semibold text-neutral-700">AI Analysis</h3>
+            <div className="bg-white rounded-3xl p-6 border border-neutral-100 shadow-lg shadow-neutral-200/50 h-full min-h-[300px]">
+                <div className="flex items-center gap-3 mb-6">
+                    <div className="w-6 h-6 rounded-full bg-neutral-100 animate-pulse"></div>
+                    <div className="h-4 w-32 bg-neutral-100 rounded animate-pulse"></div>
                 </div>
-                <div className="space-y-3">
-                    <div className="h-4 bg-neutral-100 rounded w-3/4 animate-pulse" />
-                    <div className="h-4 bg-neutral-100 rounded w-full animate-pulse" />
-                    <div className="h-4 bg-neutral-100 rounded w-5/6 animate-pulse" />
+                <div className="space-y-4">
+                    <div className="h-4 w-full bg-neutral-100 rounded animate-pulse"></div>
+                    <div className="h-4 w-5/6 bg-neutral-100 rounded animate-pulse"></div>
+                    <div className="h-4 w-4/6 bg-neutral-100 rounded animate-pulse"></div>
+                </div>
+                <div className="mt-8 grid grid-cols-2 gap-4">
+                    <div className="h-24 bg-neutral-50 rounded-xl animate-pulse"></div>
+                    <div className="h-24 bg-neutral-50 rounded-xl animate-pulse"></div>
                 </div>
             </div>
         );
