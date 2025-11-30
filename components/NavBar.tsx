@@ -27,7 +27,7 @@ export default function NavBar() {
                 </Link>
 
                 {/* Navigation */}
-                <div className="flex items-center gap-8">
+                <div className="flex items-center gap-8 overflow-x-auto no-scrollbar mask-gradient-x md:mask-none">
                     {navItems.map((item) => {
                         const isActive = pathname === item.href;
                         return (

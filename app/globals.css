@@ -81,3 +81,13 @@ body {
   color: #1E3A8A;
   /* blue-900 */
 }
+
+/* Utilities */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
