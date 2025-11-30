@@ -37,7 +37,7 @@ export default function WeatherCard({ title, value, unit, icon, severity, delay 
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay, duration: 0.4 }}
-            className="weather-card p-6 flex items-center justify-between group"
+            className="weather-card p-6 flex items-center justify-between group hover:border-blue-200 hover:bg-blue-50/30 transition-all duration-300"
         >
             <div className="flex items-center gap-4">
                 <div className="w-12 h-12 rounded-2xl bg-blue-50 flex items-center justify-center text-blue-500 group-hover:scale-110 transition-transform duration-300">
