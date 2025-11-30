@@ -57,7 +57,8 @@ body {
 
 /* Scrollbar */
 ::-webkit-scrollbar {
-  width: 8px;
+  width: 6px;
+  height: 6px;
 }
 
 ::-webkit-scrollbar-track {
@@ -65,10 +66,18 @@ body {
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #D1D5DB;
-  border-radius: 4px;
+  background: #CBD5E1;
+  border-radius: 10px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #9CA3AF;
+  background: #94A3B8;
+}
+
+/* Selection */
+::selection {
+  background: #BFDBFE;
+  /* blue-200 */
+  color: #1E3A8A;
+  /* blue-900 */
 }
