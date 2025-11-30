@@ -1,6 +1,7 @@
 "use client";
 import { useState } from "react";
 import { motion } from "framer-motion";
+import { ArrowUp, ArrowDown, Minus } from "lucide-react";
 import Globe from "@/components/Globe";
 import { PhysicsParameters } from "@/lib/types";
 import { DEFAULT_PARAMS, PARAM_RANGES } from "@/lib/constants";
@@ -18,8 +19,18 @@ export default function ComparePage() {
 
     const getDifference = (earth: number, modified: number, unit: string = '') => {
         const diff = modified - earth;
-        const sign = diff > 0 ? '+' : '';
-        return `${sign}${diff.toFixed(1)}${unit}`;
+        const absDiff = Math.abs(diff);
+        if (absDiff < 0.1) return <span className="text-neutral-400 flex items-center gap-1"><Minus size={14} /> 0{unit}</span>;
+
+        const isPositive = diff > 0;
+        const Icon = isPositive ? ArrowUp : ArrowDown;
+
+        return (
+            <span className="flex items-center gap-1">
+                <Icon size={14} />
+                {absDiff.toFixed(1)}{unit}
+            </span>
+        );
     };
 
     return (
@@ -112,23 +123,23 @@ export default function ComparePage() {
                 <div className="bg-white rounded-3xl p-6 border border-neutral-100 shadow-lg shadow-neutral-200/20 flex flex-col justify-center">
                     <h3 className="text-sm font-bold text-neutral-900 mb-4 text-center">Impact Analysis</h3>
                     <div className="flex items-center justify-between">
-                        <div className="text-center">
+                        <div className="text-center flex flex-col items-center">
                             <div className="text-xs text-neutral-500 uppercase mb-1">Temp Diff</div>
-                            <div className={`text-lg font-mono font-bold ${modifiedWeather.temperature > earthWeather.temperature ? 'text-red-500' : 'text-blue-500'}`}>
+                            <div className={`text-lg font-mono font-bold ${modifiedWeather.temperature > earthWeather.temperature ? 'text-red-500' : modifiedWeather.temperature < earthWeather.temperature ? 'text-blue-500' : 'text-neutral-500'}`}>
                                 {getDifference(earthWeather.temperature, modifiedWeather.temperature, '°')}
                             </div>
                         </div>
                         <div className="w-px h-8 bg-neutral-200"></div>
-                        <div className="text-center">
+                        <div className="text-center flex flex-col items-center">
                             <div className="text-xs text-neutral-500 uppercase mb-1">Storm Risk</div>
-                            <div className={`text-lg font-mono font-bold ${modifiedWeather.stormProbability > earthWeather.stormProbability ? 'text-purple-500' : 'text-green-500'}`}>
+                            <div className={`text-lg font-mono font-bold ${modifiedWeather.stormProbability > earthWeather.stormProbability ? 'text-purple-500' : modifiedWeather.stormProbability < earthWeather.stormProbability ? 'text-green-500' : 'text-neutral-500'}`}>
                                 {getDifference(earthWeather.stormProbability, modifiedWeather.stormProbability, '%')}
                             </div>
                         </div>
                         <div className="w-px h-8 bg-neutral-200"></div>
-                        <div className="text-center">
+                        <div className="text-center flex flex-col items-center">
                             <div className="text-xs text-neutral-500 uppercase mb-1">Comfort</div>
-                            <div className={`text-lg font-mono font-bold ${modifiedWeather.comfortIndex > earthWeather.comfortIndex ? 'text-blue-500' : 'text-orange-500'}`}>
+                            <div className={`text-lg font-mono font-bold ${modifiedWeather.comfortIndex > earthWeather.comfortIndex ? 'text-blue-500' : modifiedWeather.comfortIndex < earthWeather.comfortIndex ? 'text-orange-500' : 'text-neutral-500'}`}>
                                 {getDifference(earthWeather.comfortIndex, modifiedWeather.comfortIndex)}
                             </div>
                         </div>
