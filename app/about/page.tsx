@@ -1,6 +1,6 @@
 "use client";
 import { motion } from "framer-motion";
-import { Atom, Cloud, Wind, Thermometer, Droplets, Gauge, Sun, Leaf } from "lucide-react";
+import { Atom, Cloud, Wind, Thermometer, Droplets, Gauge, Sun, Leaf, FlaskConical } from "lucide-react";
 
 export default function AboutPage() {
     return (
@@ -55,16 +55,43 @@ export default function AboutPage() {
                 </div>
             </div>
 
+            {/* Research & Methodology */}
+            <div className="mb-16">
+                <div className="flex items-center gap-3 mb-8">
+                    <FlaskConical className="text-purple-500" size={24} />
+                    <h2 className="text-xl font-bold text-neutral-900">Methodology</h2>
+                </div>
+                <div className="bg-white p-8 rounded-3xl border border-neutral-100 shadow-lg shadow-neutral-200/20">
+                    <p className="text-neutral-600 leading-relaxed mb-6">
+                        This simulator uses simplified fluid dynamics equations to approximate real-world weather patterns.
+                        While not a full climate model, it respects the proportional relationships between gravity, pressure,
+                        and temperature established by the Ideal Gas Law and hydrostatic equilibrium principles.
+                    </p>
+                    <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                        <div className="p-4 bg-neutral-50 rounded-xl border border-neutral-100">
+                            <h3 className="font-semibold text-neutral-900 mb-2">Thermodynamics</h3>
+                            <p className="text-xs text-neutral-500">Heat transfer and energy conservation.</p>
+                        </div>
+                        <div className="p-4 bg-neutral-50 rounded-xl border border-neutral-100">
+                            <h3 className="font-semibold text-neutral-900 mb-2">Fluid Dynamics</h3>
+                            <p className="text-xs text-neutral-500">Air movement and pressure gradients.</p>
+                        </div>
+                        <div className="p-4 bg-neutral-50 rounded-xl border border-neutral-100">
+                            <h3 className="font-semibold text-neutral-900 mb-2">Atmospheric Science</h3>
+                            <p className="text-xs text-neutral-500">Cloud formation and precipitation cycles.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
             {/* Tech Stack */}
             <div className="pt-12 border-t border-neutral-200">
                 <h3 className="text-sm font-bold text-neutral-500 uppercase tracking-wider mb-6">Built With</h3>
-                <div className="flex flex-wrap gap-3">
-                    <TechBadge text="Next.js 14" />
-                    <TechBadge text="Three.js" />
-                    <TechBadge text="React Three Fiber" />
-                    <TechBadge text="D3.js" />
-                    <TechBadge text="Tailwind CSS" />
-                    <TechBadge text="Framer Motion" />
+                <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                    <TechCard title="Next.js 14" description="App Router & Server Components" />
+                    <TechCard title="Three.js" description="3D Rendering Engine" />
+                    <TechCard title="React Three Fiber" description="Declarative 3D for React" />
+                    <TechCard title="Tailwind CSS" description="Utility-first Styling" />
                 </div>
             </div>
         </div>
@@ -90,10 +117,11 @@ function ParameterCard({ icon: Icon, title, description, detail }: { icon: any, 
     );
 }
 
-function TechBadge({ text }: { text: string }) {
+function TechCard({ title, description }: { title: string, description: string }) {
     return (
-        <span className="px-3 py-1.5 bg-neutral-100 text-neutral-600 rounded-lg text-sm font-medium border border-neutral-200">
-            {text}
-        </span>
+        <div className="p-4 bg-white rounded-xl border border-neutral-100 shadow-sm hover:shadow-md transition-shadow">
+            <h4 className="font-bold text-neutral-900 text-sm mb-1">{title}</h4>
+            <p className="text-xs text-neutral-500">{description}</p>
+        </div>
     );
 }
