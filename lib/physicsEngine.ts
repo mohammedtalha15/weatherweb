@@ -11,22 +11,37 @@ import {
 } from './constants';
 
 /**
- * Calculate cloud base altitude based on temperature and dew point
- * Modified by gravity
+ * Calculate cloud base altitude based on temperature and dew point.
+ * The formula approximates the Lifting Condensation Level (LCL).
+ * 
+ * @param temperature - Current air temperature in Celsius
+ * @param dewPoint - Current dew point in Celsius
+ * @param gravity - Gravity multiplier (1 = Earth standard)
+ * @returns Estimated cloud base altitude in meters
  */
 function calculateCloudAltitude(
     temperature: number,
     dewPoint: number,
     gravity: number
 ): number {
+    // Standard lapse rate approximation: (T - Td) * 125
     const baseHeight = (temperature - dewPoint) * CLOUD_HEIGHT_FACTOR;
-    // Lower gravity = clouds rise higher
+
+    // Gravity affects atmospheric density gradient.
+    // Lower gravity means the atmosphere is less compressed, so clouds form higher.
     const gravityFactor = 1 / gravity;
+
     return baseHeight * gravityFactor;
 }
 
 /**
- * Calculate rainfall rate based on gravity and pressure
+ * Calculate rainfall rate based on environmental factors.
+ * 
+ * @param gravity - Gravity multiplier
+ * @param pressure - Atmospheric pressure in hPa
+ * @param humidity - Relative humidity percentage (0-100)
+ * @param cloudCondensation - Multiplier for cloud density
+ * @returns Rainfall rate in mm/hour (approximate)
  */
 function calculateRainfall(
     gravity: number,
@@ -34,11 +49,14 @@ function calculateRainfall(
     humidity: number,
     cloudCondensation: number
 ): number {
-    // Gravity affects how fast rain falls
+    // Gravity affects droplet fall speed. Higher gravity = faster/harder rain.
     const gravityEffect = Math.pow(gravity, 0.4);
-    // Pressure affects condensation
+
+    // Higher pressure generally suppresses updrafts needed for rain,
+    // but here we model it as atmospheric density supporting larger droplets.
     const pressureEffect = pressure / BASE_PRESSURE;
-    // Humidity affects rain chance
+
+    // Humidity is the primary driver. Below a certain threshold, rain is unlikely.
     const humidityEffect = humidity / 100;
 
     return BASE_RAIN_RATE * gravityEffect * pressureEffect * humidityEffect * cloudCondensation;
