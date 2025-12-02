@@ -37,19 +37,19 @@ export default function AISummary({ weather, parameters }: AISummaryProps) {
 
     if (loading || !explanation) {
         return (
-            <div className="bg-white rounded-3xl p-6 border border-neutral-100 shadow-lg shadow-neutral-200/50 h-full min-h-[300px]">
+            <div className="natural-card bg-[#FFFFFF] p-6 border-[#E5E5E5] h-full min-h-[300px]">
                 <div className="flex items-center gap-3 mb-6">
-                    <div className="w-6 h-6 rounded-full bg-neutral-100 animate-pulse"></div>
-                    <div className="h-4 w-32 bg-neutral-100 rounded animate-pulse"></div>
+                    <div className="w-6 h-6 rounded-full bg-[#F0EEE6] animate-pulse"></div>
+                    <div className="h-4 w-32 bg-[#F0EEE6] rounded animate-pulse"></div>
                 </div>
                 <div className="space-y-4">
-                    <div className="h-4 w-full bg-neutral-100 rounded animate-pulse"></div>
-                    <div className="h-4 w-5/6 bg-neutral-100 rounded animate-pulse"></div>
-                    <div className="h-4 w-4/6 bg-neutral-100 rounded animate-pulse"></div>
+                    <div className="h-4 w-full bg-[#F0EEE6] rounded animate-pulse"></div>
+                    <div className="h-4 w-5/6 bg-[#F0EEE6] rounded animate-pulse"></div>
+                    <div className="h-4 w-4/6 bg-[#F0EEE6] rounded animate-pulse"></div>
                 </div>
                 <div className="mt-8 grid grid-cols-2 gap-4">
-                    <div className="h-24 bg-neutral-50 rounded-xl animate-pulse"></div>
-                    <div className="h-24 bg-neutral-50 rounded-xl animate-pulse"></div>
+                    <div className="h-24 bg-[#F0EEE6] rounded-xl animate-pulse"></div>
+                    <div className="h-24 bg-[#F0EEE6] rounded-xl animate-pulse"></div>
                 </div>
             </div>
         );
@@ -58,10 +58,10 @@ export default function AISummary({ weather, parameters }: AISummaryProps) {
     return (
         <div className="p-2">
             <div className="flex items-center gap-2 mb-6">
-                <div className="p-2 bg-blue-50 rounded-lg">
-                    <Sparkles className="text-blue-500" size={20} />
+                <div className="p-2 bg-[#264653]/5 rounded-lg">
+                    <Sparkles className="text-[#264653]" size={20} />
                 </div>
-                <h3 className="font-bold text-neutral-800 text-lg">AI Analysis</h3>
+                <h3 className="font-serif font-bold text-[#2C3333] text-lg">AI Analysis</h3>
             </div>
 
             <div className="space-y-6">
@@ -69,29 +69,29 @@ export default function AISummary({ weather, parameters }: AISummaryProps) {
                     icon={Sparkles}
                     title="Summary"
                     content={explanation.summary}
-                    color="text-blue-500"
-                    bgColor="bg-blue-50"
+                    color="text-[#264653]"
+                    bgColor="bg-[#264653]/5"
                 />
                 <SummarySection
                     icon={FlaskConical}
                     title="Scientific"
                     content={explanation.scientific}
-                    color="text-purple-500"
-                    bgColor="bg-purple-50"
+                    color="text-[#2A9D8F]"
+                    bgColor="bg-[#2A9D8F]/5"
                 />
                 <SummarySection
                     icon={Leaf}
                     title="Biological"
                     content={explanation.biological}
-                    color="text-green-500"
-                    bgColor="bg-green-50"
+                    color="text-[#E9C46A]"
+                    bgColor="bg-[#E9C46A]/5"
                 />
                 <SummarySection
                     icon={AlertTriangle}
                     title="Risks"
                     content={explanation.risks}
-                    color="text-orange-500"
-                    bgColor="bg-orange-50"
+                    color="text-[#E76F51]"
+                    bgColor="bg-[#E76F51]/5"
                 />
             </div>
         </div>
@@ -105,8 +105,8 @@ function SummarySection({ icon: Icon, title, content, color, bgColor }: { icon: 
                 <Icon size={16} className={color} />
             </div>
             <div>
-                <h4 className={`text-sm font-semibold mb-1 ${color}`}>{title}</h4>
-                <p className="text-sm text-neutral-600 leading-relaxed">{content}</p>
+                <h4 className={`text-sm font-serif font-semibold mb-1 ${color}`}>{title}</h4>
+                <p className="text-sm text-[#5C5C5C] leading-relaxed">{content}</p>
             </div>
         </div>
     );
