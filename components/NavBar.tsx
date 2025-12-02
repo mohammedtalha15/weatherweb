@@ -16,29 +16,29 @@ export default function NavBar() {
     const pathname = usePathname();
 
     return (
-        <nav className="fixed top-0 left-0 right-0 z-50 bg-white/80 backdrop-blur-md border-b border-neutral-200/50 shadow-sm">
-            <div className="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
+        <nav className="fixed top-6 left-0 right-0 z-50 flex justify-center px-4">
+            <div className="natural-card bg-[#FDFBF7] px-6 py-3 flex items-center gap-8 shadow-lg shadow-stone-900/5 border-stone-200">
                 {/* Logo */}
-                <Link href="/" className="flex items-center gap-2 group">
-                    <div className="w-8 h-8 rounded-lg bg-blue-500/10 flex items-center justify-center text-blue-500 group-hover:bg-blue-500/20 transition-colors">
-                        <Wind size={18} />
+                <Link href="/" className="flex items-center gap-2 group mr-4">
+                    <div className="w-8 h-8 rounded-full bg-[#264653] flex items-center justify-center text-[#E9C46A] group-hover:scale-105 transition-transform">
+                        <Wind size={16} />
                     </div>
-                    <span className="font-semibold text-neutral-800 tracking-tight">Weather<span className="text-blue-500">Physics</span></span>
+                    <span className="font-serif font-bold text-[#2C3333] tracking-tight">Weather<span className="text-[#264653]">Physics</span></span>
                 </Link>
 
                 {/* Navigation */}
-                <div className="flex items-center gap-8 overflow-x-auto no-scrollbar mask-gradient-x md:mask-none">
+                <div className="flex items-center gap-2">
                     {navItems.map((item) => {
                         const isActive = pathname === item.href;
                         return (
-                            <Link key={item.href} href={item.href} className="relative py-5">
-                                <div className={`flex items-center gap-2 text-sm font-medium transition-colors duration-200 ${isActive ? 'text-blue-600' : 'text-neutral-500 hover:text-neutral-800'}`}>
+                            <Link key={item.href} href={item.href} className="relative px-4 py-2 rounded-full transition-colors hover:bg-stone-100">
+                                <div className={`flex items-center gap-2 text-sm font-medium transition-colors duration-200 ${isActive ? 'text-[#264653]' : 'text-[#5C5C5C]'}`}>
                                     {item.label}
                                 </div>
                                 {isActive && (
                                     <motion.div
-                                        layoutId="navbar-underline"
-                                        className="absolute bottom-0 left-0 right-0 h-[2px] bg-blue-500 rounded-t-full"
+                                        layoutId="navbar-pill"
+                                        className="absolute inset-0 bg-[#E9C46A]/20 rounded-full -z-10"
                                         initial={false}
                                         transition={{ type: "spring", stiffness: 500, damping: 30 }}
                                     />
@@ -47,9 +47,6 @@ export default function NavBar() {
                         );
                     })}
                 </div>
-
-                {/* Placeholder for right side (e.g. settings or nothing) */}
-                <div className="w-24 hidden md:block"></div>
             </div>
         </nav>
     );
