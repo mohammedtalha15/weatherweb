@@ -32,6 +32,7 @@ import { ToastProvider } from "@/components/ui/toast";
 // ...
 
 import ErrorBoundary from "@/components/ErrorBoundary";
+import ScrollToTop from "@/components/ScrollToTop";
 
 export default function RootLayout({
   children,
@@ -52,6 +53,7 @@ export default function RootLayout({
               {children}
             </main>
             <Footer />
+            <ScrollToTop />
           </ErrorBoundary>
         </ToastProvider>
       </body>

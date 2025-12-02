@@ -150,7 +150,8 @@ function Earth({ parameters, weather }: GlobeProps) {
  */
 export default function Globe({ parameters, weather }: GlobeProps) {
     return (
-        <div className="w-full h-full bg-gradient-to-b from-sky-100 to-white relative overflow-hidden">
+        <div className="w-full h-full bg-[#FDFBF7] relative overflow-hidden">
+            <div className="absolute inset-0 bg-paper opacity-30 pointer-events-none"></div>
             <Canvas camera={{ position: [0, 0, 2.5], fov: 45 }}>
                 <Suspense fallback={<Loader />}>
                     <ambientLight intensity={0.5} />
@@ -162,8 +163,8 @@ export default function Globe({ parameters, weather }: GlobeProps) {
             </Canvas>
 
             {/* Info Overlay */}
-            <div className="absolute bottom-4 left-4 weather-card px-4 py-2 text-sm">
-                <p className="text-gray-600">
+            <div className="absolute bottom-4 left-4 natural-card bg-white/80 backdrop-blur-sm px-4 py-2 text-sm border-[#E5E5E5]">
+                <p className="text-[#5C5C5C] font-medium">
                     🌍 Drag to rotate • Scroll to zoom
                 </p>
             </div>
