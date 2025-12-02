@@ -6,6 +6,8 @@ import Globe from "@/components/Globe";
 import PhysicsSlider from "@/components/PhysicsSlider";
 import WeatherCard from "@/components/WeatherCard";
 import AISummary from "@/components/AISummary";
+import { Button } from "@/components/ui/button";
+import { useToast } from "@/components/ui/toast";
 import { simulateWeather } from "@/lib/physicsEngine";
 import { DEFAULT_PARAMS, PARAM_RANGES } from "@/lib/constants";
 import { PhysicsParameters } from "@/lib/types";
@@ -14,6 +16,8 @@ export default function SimulationPage() {
     const [params, setParams] = useState<PhysicsParameters>(DEFAULT_PARAMS);
     const [weather, setWeather] = useState(simulateWeather(DEFAULT_PARAMS));
     const [isClient, setIsClient] = useState(false);
+
+    const { showToast } = useToast();
 
     useEffect(() => {
         setIsClient(true);
@@ -39,12 +43,12 @@ export default function SimulationPage() {
 
                 {/* Left Column: Controls */}
                 <div className="lg:col-span-4 space-y-6">
-                    <div className="bg-white rounded-3xl p-6 border border-neutral-100 shadow-xl shadow-neutral-200/50">
+                    <div className="natural-card p-6 bg-[#FFFFFF] border-[#E5E5E5]">
                         <div className="flex items-center justify-between mb-6">
-                            <h2 className="text-xl font-bold text-neutral-900">Physics Parameters</h2>
+                            <h2 className="text-xl font-serif font-bold text-[#264653]">Physics Parameters</h2>
                             <button
                                 onClick={resetParams}
-                                className="p-2 rounded-full hover:bg-neutral-100 text-neutral-400 hover:text-neutral-600 transition-colors"
+                                className="p-2 rounded-full hover:bg-[#F0EEE6] text-[#8C8C8C] hover:text-[#264653] transition-colors"
                                 title="Reset to Earth defaults"
                             >
                                 <RotateCcw size={18} />
@@ -104,7 +108,7 @@ export default function SimulationPage() {
                             />
                             <PhysicsSlider
                                 label="Air Density"
-                                value={params.airDensity} // Note: This might be 'airDensity' in types, let me check
+                                value={params.airDensity}
                                 min={PARAM_RANGES.airDensity.min}
                                 max={PARAM_RANGES.airDensity.max}
                                 step={PARAM_RANGES.airDensity.step}
@@ -116,7 +120,7 @@ export default function SimulationPage() {
                     </div>
 
                     {/* AI Summary (Compact) */}
-                    <div className="bg-white rounded-3xl p-6 border border-neutral-100 shadow-xl shadow-neutral-200/50">
+                    <div className="natural-card p-6 bg-[#FFFFFF] border-[#E5E5E5]">
                         <AISummary weather={weather} parameters={params} />
                     </div>
                 </div>
@@ -125,10 +129,10 @@ export default function SimulationPage() {
                 <div className="lg:col-span-8 space-y-6">
 
                     {/* Globe Visualization */}
-                    <div className="bg-white rounded-3xl overflow-hidden border border-neutral-100 shadow-xl shadow-neutral-200/50 h-[500px] relative">
+                    <div className="natural-card overflow-hidden border-[#E5E5E5] h-[500px] relative bg-[#FDFBF7]">
                         <div className="absolute top-4 left-6 z-10">
-                            <h2 className="text-lg font-bold text-neutral-900">Global Simulation</h2>
-                            <p className="text-sm text-neutral-500">Real-time atmospheric rendering</p>
+                            <h2 className="text-lg font-serif font-bold text-[#264653]">Global Simulation</h2>
+                            <p className="text-sm text-[#5C5C5C] italic">Real-time atmospheric rendering</p>
                         </div>
                         <Globe parameters={params} weather={weather} />
                     </div>

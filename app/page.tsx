@@ -7,20 +7,32 @@ export default function Home() {
   return (
     <div className="max-w-7xl mx-auto px-6">
       {/* Hero Section */}
-      <div className="relative py-20 text-center">
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-gradient-to-tr from-blue-100/40 to-purple-100/40 rounded-full blur-3xl -z-10 pointer-events-none"></div>
+      <div className="relative py-24 text-center">
+        {/* Subtle Paper Texture Background */}
+        <div className="absolute inset-0 bg-paper opacity-50 -z-10 pointer-events-none"></div>
+
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="inline-block mb-4 px-4 py-1.5 rounded-full bg-[#E9C46A]/20 text-[#2C3333] text-sm font-medium border border-[#E9C46A]/30"
+        >
+          🌿 Discover the Nature of Weather
+        </motion.div>
+
         <motion.h1
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          className="text-4xl md:text-5xl font-bold text-neutral-900 mb-6 tracking-tight"
+          transition={{ delay: 0.1 }}
+          className="text-5xl md:text-7xl font-serif font-bold text-[#264653] mb-8 tracking-tight"
         >
-          Atmospheric <span className="text-blue-500">Physics</span> Engine
+          Atmospheric <span className="text-[#E76F51] italic">Physics</span>
         </motion.h1>
+
         <motion.p
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.1 }}
-          className="text-xl text-neutral-500 max-w-2xl mx-auto mb-10 leading-relaxed"
+          transition={{ delay: 0.2 }}
+          className="text-xl md:text-2xl text-[#5C5C5C] max-w-2xl mx-auto mb-12 leading-relaxed font-light"
         >
           Explore how fundamental forces shape planetary climates.
           A real-time simulation powered by scientific principles.
@@ -29,40 +41,40 @@ export default function Home() {
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.2 }}
+          transition={{ delay: 0.3 }}
           className="flex justify-center gap-4"
         >
-          <Link href="/simulation" className="px-8 py-3 bg-blue-500 text-white rounded-full font-medium hover:bg-blue-600 transition-colors shadow-lg shadow-blue-500/20 flex items-center gap-2">
+          <Link href="/simulation" className="px-8 py-4 bg-[#264653] text-[#FDFBF7] rounded-full font-medium hover:bg-[#2C5263] transition-all shadow-lg shadow-[#264653]/20 hover:shadow-xl hover:-translate-y-1 flex items-center gap-2">
             Start Simulation <ArrowRight size={18} />
           </Link>
-          <Link href="/about" className="px-8 py-3 bg-white text-neutral-700 border border-neutral-200 rounded-full font-medium hover:bg-neutral-50 transition-colors shadow-sm">
+          <Link href="/about" className="px-8 py-4 bg-[#FDFBF7] text-[#264653] border border-[#E5E5E5] rounded-full font-medium hover:bg-[#F0EEE6] transition-all shadow-sm hover:shadow-md">
             Learn More
           </Link>
         </motion.div>
       </div>
 
       {/* Feature Cards */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-16">
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-24">
         <FeatureCard
           icon={Wind}
           title="Real-time Simulation"
           description="Adjust gravity, pressure, and sunlight to see immediate atmospheric responses."
           href="/simulation"
-          delay={0.3}
+          delay={0.4}
         />
         <FeatureCard
           icon={GitCompare}
           title="Comparative Analysis"
           description="Compare Earth's standard conditions against your modified physics models."
           href="/compare"
-          delay={0.4}
+          delay={0.5}
         />
         <FeatureCard
           icon={Activity}
           title="Live Metrics"
           description="Monitor temperature, precipitation, and storm risks with precision."
           href="/simulation"
-          delay={0.5}
+          delay={0.6}
         />
       </div>
 
@@ -70,13 +82,15 @@ export default function Home() {
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 0.6 }}
-        className="bg-white rounded-3xl p-8 md:p-12 border border-neutral-100 shadow-xl shadow-neutral-200/50"
+        transition={{ delay: 0.7 }}
+        className="natural-card p-10 md:p-16 bg-[#FFFFFF] mb-20 relative overflow-hidden"
       >
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+        <div className="absolute top-0 right-0 w-64 h-64 bg-[#E9C46A]/10 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2"></div>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-16 items-center relative z-10">
           <div>
-            <h2 className="text-2xl font-bold text-neutral-900 mb-4">Scientific Accuracy</h2>
-            <p className="text-neutral-500 leading-relaxed mb-6">
+            <h2 className="text-3xl font-serif font-bold text-[#264653] mb-6">Scientific Accuracy</h2>
+            <p className="text-[#5C5C5C] leading-relaxed mb-8 text-lg">
               Our engine uses simplified fluid dynamics and thermodynamic equations to approximate real-world weather patterns.
               While optimized for the web, the relationships between gravity, pressure, and temperature follow established physical laws.
             </p>
@@ -86,10 +100,10 @@ export default function Home() {
               <Badge text="Atmospheric Science" />
             </div>
           </div>
-          <div className="relative h-64 bg-blue-50 rounded-2xl overflow-hidden flex items-center justify-center border border-blue-100">
+          <div className="relative h-80 bg-[#F0EEE6] rounded-2xl overflow-hidden flex items-center justify-center border border-[#E5E5E5]">
             <div className="text-center">
-              <Wind size={48} className="text-blue-400 mx-auto mb-4 opacity-50" />
-              <p className="text-blue-400 font-medium">Physics Engine Visualization</p>
+              <Wind size={64} className="text-[#264653] mx-auto mb-6 opacity-20" />
+              <p className="text-[#264653] font-serif italic text-lg">Physics Engine Visualization</p>
             </div>
           </div>
         </div>
@@ -105,12 +119,12 @@ function FeatureCard({ icon: Icon, title, description, href, delay }: { icon: an
       animate={{ opacity: 1, y: 0 }}
       transition={{ delay }}
     >
-      <Link href={href} className="block h-full p-8 bg-white rounded-2xl border border-neutral-100 shadow-lg shadow-neutral-200/40 hover:shadow-xl hover:shadow-blue-500/10 hover:-translate-y-1 transition-all duration-300 group">
-        <div className="w-12 h-12 rounded-xl bg-blue-50 flex items-center justify-center text-blue-500 mb-6 group-hover:scale-110 transition-transform">
-          <Icon size={24} />
+      <Link href={href} className="block h-full p-8 bg-[#FFFFFF] rounded-2xl border border-[#E5E5E5] shadow-sm hover:shadow-lg hover:border-[#264653]/20 hover:-translate-y-1 transition-all duration-300 group">
+        <div className="w-14 h-14 rounded-full bg-[#264653]/5 flex items-center justify-center text-[#264653] mb-6 group-hover:bg-[#264653] group-hover:text-[#FDFBF7] transition-all duration-300">
+          <Icon size={28} strokeWidth={1.5} />
         </div>
-        <h3 className="text-xl font-bold text-neutral-900 mb-3 group-hover:text-blue-600 transition-colors">{title}</h3>
-        <p className="text-neutral-500 leading-relaxed">{description}</p>
+        <h3 className="text-2xl font-serif font-bold text-[#2C3333] mb-3 group-hover:text-[#264653] transition-colors">{title}</h3>
+        <p className="text-[#5C5C5C] leading-relaxed">{description}</p>
       </Link>
     </motion.div>
   );
@@ -118,7 +132,7 @@ function FeatureCard({ icon: Icon, title, description, href, delay }: { icon: an
 
 function Badge({ text }: { text: string }) {
   return (
-    <span className="px-3 py-1 bg-neutral-100 text-neutral-600 rounded-full text-sm font-medium">
+    <span className="px-4 py-1.5 bg-[#F0EEE6] text-[#2C3333] rounded-full text-sm font-medium border border-[#E5E5E5]">
       {text}
     </span>
   );
