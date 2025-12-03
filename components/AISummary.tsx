@@ -39,8 +39,8 @@ export default function AISummary({ weather, parameters }: AISummaryProps) {
         return (
             <div className="natural-card bg-[#FFFFFF] p-6 border-[#E5E5E5] h-full min-h-[300px]">
                 <div className="flex items-center gap-3 mb-6">
-                    <div className="w-6 h-6 rounded-full bg-[#F0EEE6] animate-pulse"></div>
-                    <div className="h-4 w-32 bg-[#F0EEE6] rounded animate-pulse"></div>
+                    <div className="w-6 h-6 rounded-full bg-[#F0EEE6] animate-pulse opacity-70"></div>
+                    <div className="h-4 w-32 bg-[#F0EEE6] rounded animate-pulse opacity-70"></div>
                 </div>
                 <div className="space-y-4">
                     <div className="h-4 w-full bg-[#F0EEE6] rounded animate-pulse"></div>
