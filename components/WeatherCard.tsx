@@ -52,9 +52,9 @@ export default function WeatherCard({ title, value, unit, icon, severity, delay 
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay, duration: 0.4 }}
         >
-            <div className="natural-card p-6 flex items-center justify-between group bg-[#FDFBF7] border-[#E5E5E5] hover:border-[#264653]/30">
+            <div className="natural-card p-6 flex items-center justify-between group bg-[#FDFBF7] border-[#E5E5E5] hover:border-[#264653]/30 transition-all duration-500">
                 <div className="flex items-center gap-4">
-                    <div className="w-12 h-12 rounded-full bg-[#264653]/5 flex items-center justify-center text-[#264653] group-hover:bg-[#264653] group-hover:text-[#FDFBF7] transition-all duration-300">
+                    <div className="w-12 h-12 rounded-full bg-[#264653]/5 flex items-center justify-center text-[#264653] group-hover:bg-[#264653] group-hover:text-[#FDFBF7] transition-all duration-500">
                         <Icon size={22} strokeWidth={1.5} />
                     </div>
                     <div>
