@@ -164,7 +164,7 @@ function MinimalSlider({ label, value, min, max, onChange }: { label: string, va
                 step={(max - min) / 100}
                 value={value}
                 onChange={(e) => onChange(parseFloat(e.target.value))}
-                className="w-full h-1.5 bg-[#D1D5DB] rounded-lg appearance-none cursor-pointer accent-[#264653] hover:accent-[#2C5263]"
+                className="w-full h-1.5 bg-[#D1D5DB] rounded-lg appearance-none cursor-pointer accent-[#E76F51] hover:accent-[#D65F41] transition-all"
             />
         </div>
     );
