@@ -163,7 +163,7 @@ export default function Globe({ parameters, weather }: GlobeProps) {
             </Canvas>
 
             {/* Info Overlay */}
-            <div className="absolute bottom-4 left-4 natural-card bg-white/80 backdrop-blur-sm px-4 py-2 text-sm border-[#E5E5E5]">
+            <div className="absolute bottom-4 left-4 natural-card bg-white/60 backdrop-blur-md px-4 py-2 text-sm border-[#E5E5E5] shadow-sm">
                 <p className="text-[#5C5C5C] font-medium">
                     🌍 Drag to rotate • Scroll to zoom
                 </p>
