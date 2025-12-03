@@ -100,9 +100,9 @@ export default function AboutPage() {
 
 function ParameterCard({ icon: Icon, title, description, detail }: { icon: any, title: string, description: string, detail: string }) {
     return (
-        <div className="natural-card bg-[#FFFFFF] p-6 border-[#E5E5E5] hover:border-[#264653]/30 group">
+        <div className="natural-card bg-[#FFFFFF] p-6 border-[#E5E5E5] hover:border-[#264653]/30 group transition-all duration-300">
             <div className="flex items-start gap-4">
-                <div className="w-10 h-10 rounded-full bg-[#264653]/5 flex items-center justify-center text-[#264653] flex-shrink-0 group-hover:bg-[#264653] group-hover:text-[#FDFBF7] transition-all duration-300">
+                <div className="w-10 h-10 rounded-full bg-[#264653]/10 flex items-center justify-center text-[#264653] flex-shrink-0 group-hover:bg-[#264653] group-hover:text-[#FDFBF7] transition-all duration-300">
                     <Icon size={20} />
                 </div>
                 <div>
