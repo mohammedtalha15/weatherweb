@@ -44,7 +44,7 @@ export default function Footer() {
                     </div>
                 </div>
 
-                <div className="pt-8 border-t border-[#E5E5E5] flex flex-col md:flex-row justify-between items-center gap-4 text-xs text-[#8C8C8C]">
+                <div className="pt-8 border-t border-[#E5E5E5] flex flex-col md:flex-row justify-between items-center gap-4 text-xs text-[#5C5C5C]/80">
                     <p>© {new Date().getFullYear()} WeatherPhysics. All rights reserved.</p>
                     <p>Built with Next.js & Three.js</p>
                 </div>
