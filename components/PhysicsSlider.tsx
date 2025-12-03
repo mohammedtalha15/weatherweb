@@ -57,7 +57,7 @@ export default function PhysicsSlider({
 
             <div className="relative h-8 flex items-center">
                 {/* Track */}
-                <div className="absolute w-full h-2 bg-[#E5E5E5] rounded-full overflow-hidden">
+                <div className="absolute w-full h-2 bg-[#E5E5E5] rounded-full overflow-hidden border border-[#D4D4D4]">
                     <div
                         className="h-full bg-[#264653] opacity-20"
                         style={{ width: `${((value - min) / (max - min)) * 100}%` }}
