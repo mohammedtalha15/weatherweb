@@ -96,7 +96,7 @@ h6 {
 
 /* Selection */
 ::selection {
-  background: var(--secondary);
+  background: rgba(233, 196, 106, 0.4);
   color: var(--foreground);
 }
 
