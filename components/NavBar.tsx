@@ -17,7 +17,7 @@ export default function NavBar() {
 
     return (
         <nav className="fixed top-6 left-0 right-0 z-50 flex justify-center px-4">
-            <div className="natural-card bg-[#FDFBF7] px-6 py-3 flex items-center gap-8 shadow-lg shadow-stone-900/5 border-stone-200">
+            <div className="natural-card bg-[#FDFBF7]/90 backdrop-blur-md px-6 py-3 flex items-center gap-8 shadow-xl shadow-[#264653]/5 border-[#E5E5E5]">
                 {/* Logo */}
                 <Link href="/" className="flex items-center gap-2 group mr-4">
                     <div className="w-8 h-8 rounded-full bg-[#264653] flex items-center justify-center text-[#E9C46A] group-hover:scale-105 transition-transform">
