@@ -152,7 +152,7 @@ export default function ComparePage() {
 
 function MinimalSlider({ label, value, min, max, onChange }: { label: string, value: number, min: number, max: number, onChange: (v: number) => void }) {
     return (
-        <div className="bg-[#F0EEE6] rounded-xl p-3 border border-[#E5E5E5]">
+        <div className="bg-[#F0EEE6] rounded-xl p-3 border border-[#E5E5E5] hover:border-[#264653]/20 transition-all duration-300">
             <div className="flex justify-between text-xs mb-2">
                 <span className="text-[#5C5C5C] font-medium">{label}</span>
                 <span className="text-[#2C3333] font-mono font-medium">{value.toFixed(1)}</span>
