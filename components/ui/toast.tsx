@@ -45,9 +45,9 @@ export function ToastProvider({ children }: { children: React.ReactNode }) {
                             exit={{ opacity: 0, y: 20, scale: 0.9 }}
                             className="pointer-events-auto flex items-center gap-3 px-4 py-3 bg-[#FDFBF7] rounded-full shadow-lg border border-[#E5E5E5] min-w-[300px]"
                         >
-                            {toast.type === "success" && <CheckCircle size={18} className="text-green-500" />}
-                            {toast.type === "error" && <AlertCircle size={18} className="text-red-500" />}
-                            {toast.type === "info" && <Info size={18} className="text-blue-500" />}
+                            {toast.type === "success" && <CheckCircle size={18} className="text-[#2A9D8F]" />}
+                            {toast.type === "error" && <AlertCircle size={18} className="text-[#E76F51]" />}
+                            {toast.type === "info" && <Info size={18} className="text-[#264653]" />}
                             <span className="text-sm font-medium text-neutral-700 flex-grow">{toast.message}</span>
                             <button onClick={() => removeToast(toast.id)} className="text-neutral-400 hover:text-neutral-600">
                                 <X size={14} />
