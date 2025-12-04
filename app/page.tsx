@@ -119,7 +119,7 @@ function FeatureCard({ icon: Icon, title, description, href, delay }: { icon: an
       animate={{ opacity: 1, y: 0 }}
       transition={{ delay }}
     >
-      <Link href={href} className="block h-full p-8 bg-[#FFFFFF] rounded-2xl border border-[#E5E5E5] shadow-sm hover:shadow-lg hover:border-[#264653]/20 hover:-translate-y-1 transition-all duration-300 group">
+      <Link href={href} className="block h-full p-8 bg-[#FFFFFF] rounded-2xl border border-[#E5E5E5] shadow-sm hover:shadow-xl hover:shadow-[#264653]/5 hover:border-[#264653]/20 hover:-translate-y-1 transition-all duration-300 group">
         <div className="w-14 h-14 rounded-full bg-[#264653]/5 flex items-center justify-center text-[#264653] mb-6 group-hover:bg-[#264653] group-hover:text-[#FDFBF7] transition-all duration-300">
           <Icon size={28} strokeWidth={1.5} />
         </div>
