@@ -49,7 +49,7 @@ export function ToastProvider({ children }: { children: React.ReactNode }) {
                             {toast.type === "error" && <AlertCircle size={18} className="text-[#E76F51]" />}
                             {toast.type === "info" && <Info size={18} className="text-[#264653]" />}
                             <span className="text-sm font-medium text-[#2C3333] flex-grow">{toast.message}</span>
-                            <button onClick={() => removeToast(toast.id)} className="text-neutral-400 hover:text-neutral-600">
+                            <button onClick={() => removeToast(toast.id)} className="text-[#8C8C8C] hover:text-[#264653]">
                                 <X size={14} />
                             </button>
                         </motion.div>
