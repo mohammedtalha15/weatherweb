@@ -32,8 +32,8 @@ class ErrorBoundary extends Component<Props, State> {
                     <div className="w-16 h-16 bg-[#E76F51]/10 rounded-full flex items-center justify-center mb-4 text-[#E76F51]">
                         <AlertTriangle size={32} />
                     </div>
-                    <h2 className="text-xl font-bold text-neutral-900 mb-2">Something went wrong</h2>
-                    <p className="text-neutral-500 mb-6 max-w-md">
+                    <h2 className="text-xl font-serif font-bold text-[#2C3333] mb-2">Something went wrong</h2>
+                    <p className="text-[#5C5C5C] mb-6 max-w-md">
                         The simulation encountered an unexpected error. Please try reloading the page.
                     </p>
                     <Button onClick={() => window.location.reload()} className="gap-2">
