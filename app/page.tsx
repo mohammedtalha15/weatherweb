@@ -14,7 +14,7 @@ export default function Home() {
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          className="inline-block mb-4 px-4 py-1.5 rounded-full bg-[#E9C46A]/20 text-[#2C3333] text-sm font-medium border border-[#E9C46A]/30"
+          className="inline-block mb-4 px-4 py-1.5 rounded-full bg-[#E9C46A]/10 text-[#264653] text-sm font-medium border border-[#E9C46A]/20"
         >
           🌿 Discover the Nature of Weather
         </motion.div>
