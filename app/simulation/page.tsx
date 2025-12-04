@@ -46,13 +46,18 @@ export default function SimulationPage() {
                     <div className="natural-card p-6 bg-[#FFFFFF] border-[#E5E5E5]">
                         <div className="flex items-center justify-between mb-6">
                             <h2 className="text-xl font-serif font-bold text-[#264653]">Physics Parameters</h2>
-                            <button
-                                onClick={resetParams}
-                                className="p-2 rounded-full hover:bg-[#F0EEE6] text-[#8C8C8C] hover:text-[#264653] transition-colors"
+                            <Button
+                                variant="ghost"
+                                size="icon"
+                                onClick={() => {
+                                    resetParams();
+                                    showToast("Parameters reset to Earth defaults", "info");
+                                }}
+                                className="h-8 w-8 text-[#8C8C8C] hover:text-[#264653] hover:bg-[#F0EEE6]"
                                 title="Reset to Earth defaults"
                             >
-                                <RotateCcw size={18} />
-                            </button>
+                                <RotateCcw size={16} />
+                            </Button>
                         </div>
 
                         <div className="space-y-6">
