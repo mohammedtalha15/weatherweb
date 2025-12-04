@@ -58,7 +58,7 @@ export default function AISummary({ weather, parameters }: AISummaryProps) {
     return (
         <div className="p-2">
             <div className="flex items-center gap-2 mb-6">
-                <div className="p-2 bg-[#264653]/5 rounded-lg">
+                <div className="p-2 bg-[#264653]/10 rounded-lg">
                     <Sparkles className="text-[#264653]" size={20} />
                 </div>
                 <h3 className="font-serif font-bold text-[#2C3333] text-lg">AI Analysis</h3>
