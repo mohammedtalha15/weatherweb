@@ -43,7 +43,7 @@ export function ToastProvider({ children }: { children: React.ReactNode }) {
                             initial={{ opacity: 0, y: 20, scale: 0.9 }}
                             animate={{ opacity: 1, y: 0, scale: 1 }}
                             exit={{ opacity: 0, y: 20, scale: 0.9 }}
-                            className="pointer-events-auto flex items-center gap-3 px-4 py-3 bg-white rounded-full shadow-lg border border-neutral-100 min-w-[300px]"
+                            className="pointer-events-auto flex items-center gap-3 px-4 py-3 bg-[#FDFBF7] rounded-full shadow-lg border border-[#E5E5E5] min-w-[300px]"
                         >
                             {toast.type === "success" && <CheckCircle size={18} className="text-green-500" />}
                             {toast.type === "error" && <AlertCircle size={18} className="text-red-500" />}
