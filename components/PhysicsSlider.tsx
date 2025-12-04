@@ -44,7 +44,7 @@ export default function PhysicsSlider({
                     <span className="text-sm font-serif font-medium text-[#2C3333] italic">{label}</span>
                     <div className="relative group/tooltip">
                         <Info size={14} className="text-[#8C8C8C] cursor-help hover:text-[#264653] transition-colors" />
-                        <div className="absolute left-0 bottom-full mb-2 w-48 p-3 bg-[#2C3333] text-[#FDFBF7] text-xs rounded-lg opacity-0 group-hover/tooltip:opacity-100 transition-opacity pointer-events-none z-10 shadow-xl">
+                        <div className="absolute left-0 bottom-full mb-2 w-48 p-3 bg-[#2C3333] text-[#FDFBF7] text-xs rounded-lg opacity-0 group-hover/tooltip:opacity-100 transition-all duration-200 pointer-events-none z-10 shadow-xl translate-y-2 group-hover/tooltip:translate-y-0">
                             {description}
                             <div className="absolute bottom-[-4px] left-3 w-2 h-2 bg-[#2C3333] rotate-45"></div>
                         </div>
