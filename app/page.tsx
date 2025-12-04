@@ -132,7 +132,7 @@ function FeatureCard({ icon: Icon, title, description, href, delay }: { icon: an
 
 function Badge({ text }: { text: string }) {
   return (
-    <span className="px-4 py-1.5 bg-[#F0EEE6] text-[#2C3333] rounded-full text-sm font-medium border border-[#E5E5E5]">
+    <span className="px-4 py-1.5 bg-[#FFFFFF] text-[#2C3333] rounded-full text-sm font-medium border border-[#E5E5E5] shadow-sm">
       {text}
     </span>
   );
