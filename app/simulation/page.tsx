@@ -6,6 +6,7 @@ import Globe from "@/components/Globe";
 import PhysicsSlider from "@/components/PhysicsSlider";
 import WeatherCard from "@/components/WeatherCard";
 import AISummary from "@/components/AISummary";
+import AskAI from "@/components/AskAI";
 import { Button } from "@/components/ui/button";
 import { useToast } from "@/components/ui/toast";
 import { simulateWeather } from "@/lib/physicsEngine";
@@ -192,6 +193,11 @@ export default function SimulationPage() {
                             severity={weather.visibility < 2 ? 'danger' : weather.visibility < 5 ? 'warning' : 'safe'}
                             delay={0.5}
                         />
+                    </div>
+
+                    {/* Ask AI Chat */}
+                    <div className="mt-6">
+                        <AskAI parameters={params} weather={weather} />
                     </div>
                 </div>
             </div>

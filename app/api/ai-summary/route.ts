@@ -24,7 +24,7 @@ export async function POST(request: NextRequest) {
 
         // Initialize Gemini AI
         const genAI = new GoogleGenerativeAI(apiKey);
-        const model = genAI.getGenerativeModel({ model: 'gemini-pro' });
+        const model = genAI.getGenerativeModel({ model: 'gemini-1.5-flash' });
 
         // Create prompt
         const prompt = `You are an expert climate physicist.
