@@ -3,22 +3,23 @@ import { GoogleGenerativeAI } from '@google/generative-ai';
 import { PhysicsParameters, WeatherOutput } from '@/lib/types';
 
 export async function POST(request: NextRequest) {
+    let parameters: PhysicsParameters | null = null;
+    let weatherOutput: WeatherOutput | null = null;
+
     try {
-        const { parameters, weatherOutput }: { parameters: PhysicsParameters; weatherOutput: WeatherOutput } = await request.json();
+        const body = await request.json();
+        parameters = body.parameters;
+        weatherOutput = body.weatherOutput;
+
+        if (!parameters || !weatherOutput) {
+            throw new Error('Invalid request body');
+        }
 
         // Check for API key
         const apiKey = process.env.GEMINI_API_KEY;
         if (!apiKey) {
             // Return mock data if no API key
-            return NextResponse.json({
-                summary: `With ${parameters.gravity}x gravity and ${parameters.sunlight}x sunlight, the weather becomes ${weatherOutput.temperature > 25 ? 'significantly warmer' : 'cooler'} with ${weatherOutput.precipitationChance}% chance of rain.`,
-                scientific: `The modified gravity (${parameters.gravity}x Earth normal) affects atmospheric pressure distribution and cloud formation. Combined with ${parameters.co2} ppm CO₂, this creates a greenhouse effect that ${parameters.co2 > 400 ? 'increases' : 'decreases'} surface temperatures. The air density of ${parameters.airDensity} kg/m³ influences wind patterns and heat retention.`,
-                biological: `Plants would experience ${parameters.gravity < 1 ? 'easier growth due to reduced gravitational stress' : 'stunted growth from increased weight'}. Humans would feel ${weatherOutput.comfortIndex > 70 ? 'comfortable' : 'uncomfortable'} in these conditions. Insects and birds would ${parameters.airDensity < 1 ? 'fly more easily' : 'struggle with flight'}.`,
-                comfortIndex: weatherOutput.comfortIndex,
-                dayFeeling: `Your day would feel ${weatherOutput.temperature > 30 ? 'hot and oppressive' : weatherOutput.temperature < 10 ? 'cold and crisp' : 'pleasant'}. The ${weatherOutput.windSpeed} km/h winds would ${weatherOutput.windSpeed > 20 ? 'make it feel cooler' : 'be barely noticeable'}. ${parameters.humidity > 70 ? 'High humidity would make it feel sticky.' : 'Low humidity would make the air feel dry.'}`,
-                risks: `${weatherOutput.stormProbability > 60 ? '⚠️ High storm risk! Seek shelter.' : weatherOutput.stormProbability > 30 ? 'Moderate storm chance - stay alert.' : 'Low storm risk.'} ${parameters.gravity < 0.5 ? '⚠️ Extreme low gravity - objects and people could float away!' : parameters.gravity > 2 ? '⚠️ High gravity - movement would be extremely difficult!' : ''} ${weatherOutput.temperature > 40 ? '⚠️ Dangerous heat levels!' : weatherOutput.temperature < -10 ? '⚠️ Freezing conditions!' : ''}`,
-                funFact: `Did you know? ${parameters.gravity < 1 ? 'On the Moon (0.16x Earth gravity), clouds would rise 6x higher!' : parameters.sunlight > 1.5 ? 'If Earth received 50% more sunlight, our oceans would eventually boil!' : parameters.co2 > 1000 ? 'At 1000+ ppm CO₂, humans experience drowsiness and reduced cognitive function!' : 'Earth\'s weather is a delicate balance of countless factors!'}`,
-            });
+            return NextResponse.json(generateFallbackResponse(parameters, weatherOutput));
         }
 
         // Initialize Gemini AI
@@ -90,18 +91,34 @@ Keep each section concise but informative. Use engaging language.`;
     } catch (error) {
         console.error('AI Summary error:', error);
 
-        // Return fallback response
-        const { parameters, weatherOutput } = await request.json();
+        // Return fallback response if we have the parameters
+        if (parameters && weatherOutput) {
+            return NextResponse.json(generateFallbackResponse(parameters, weatherOutput));
+        }
+
+        // Generic fallback if parsing failed completely
         return NextResponse.json({
-            summary: `Weather simulation complete with modified physics parameters.`,
-            scientific: `The physics engine calculated weather based on your custom parameters.`,
-            biological: `These conditions would affect all life forms differently.`,
-            comfortIndex: weatherOutput.comfortIndex,
-            dayFeeling: `The conditions would feel unique compared to Earth normal.`,
-            risks: `Always consider safety when dealing with extreme conditions.`,
-            funFact: `Physics-based weather simulation helps us understand our planet better!`,
+            summary: "Unable to generate summary.",
+            scientific: "Data unavailable.",
+            biological: "Unknown impact.",
+            comfortIndex: 50,
+            dayFeeling: "Data unavailable.",
+            risks: "Unknown risks.",
+            funFact: "Simulation data required."
         });
     }
+}
+
+function generateFallbackResponse(parameters: PhysicsParameters, weatherOutput: WeatherOutput) {
+    return {
+        summary: `With ${parameters.gravity}x gravity and ${parameters.sunlight}x sunlight, the weather becomes ${weatherOutput.temperature > 25 ? 'significantly warmer' : 'cooler'} with ${weatherOutput.precipitationChance}% chance of rain.`,
+        scientific: `The modified gravity (${parameters.gravity}x Earth normal) affects atmospheric pressure distribution and cloud formation. Combined with ${parameters.co2} ppm CO₂, this creates a greenhouse effect that ${parameters.co2 > 400 ? 'increases' : 'decreases'} surface temperatures. The air density of ${parameters.airDensity} kg/m³ influences wind patterns and heat retention.`,
+        biological: `Plants would experience ${parameters.gravity < 1 ? 'easier growth due to reduced gravitational stress' : 'stunted growth from increased weight'}. Humans would feel ${weatherOutput.comfortIndex > 70 ? 'comfortable' : 'uncomfortable'} in these conditions. Insects and birds would ${parameters.airDensity < 1 ? 'fly more easily' : 'struggle with flight'}.`,
+        comfortIndex: weatherOutput.comfortIndex,
+        dayFeeling: `Your day would feel ${weatherOutput.temperature > 30 ? 'hot and oppressive' : weatherOutput.temperature < 10 ? 'cold and crisp' : 'pleasant'}. The ${weatherOutput.windSpeed} km/h winds would ${weatherOutput.windSpeed > 20 ? 'make it feel cooler' : 'be barely noticeable'}. ${parameters.humidity > 70 ? 'High humidity would make it feel sticky.' : 'Low humidity would make the air feel dry.'}`,
+        risks: `${weatherOutput.stormProbability > 60 ? '⚠️ High storm risk! Seek shelter.' : weatherOutput.stormProbability > 30 ? 'Moderate storm chance - stay alert.' : 'Low storm risk.'} ${parameters.gravity < 0.5 ? '⚠️ Extreme low gravity - objects and people could float away!' : parameters.gravity > 2 ? '⚠️ High gravity - movement would be extremely difficult!' : ''} ${weatherOutput.temperature > 40 ? '⚠️ Dangerous heat levels!' : weatherOutput.temperature < -10 ? '⚠️ Freezing conditions!' : ''}`,
+        funFact: `Did you know? ${parameters.gravity < 1 ? 'On the Moon (0.16x Earth gravity), clouds would rise 6x higher!' : parameters.sunlight > 1.5 ? 'If Earth received 50% more sunlight, our oceans would eventually boil!' : parameters.co2 > 1000 ? 'At 1000+ ppm CO₂, humans experience drowsiness and reduced cognitive function!' : 'Earth\'s weather is a delicate balance of countless factors!'}`,
+    };
 }
 
 function extractSection(text: string, startMarker: string, endMarker: string | null): string {
